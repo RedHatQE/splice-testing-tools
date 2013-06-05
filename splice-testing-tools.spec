@@ -1,5 +1,5 @@
 Name:		splice-testing-tools
-Version:	0.0
+Version:	0.1
 Release:	1%{?dist}
 Summary:	Splice Testing library
 
@@ -37,3 +37,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/splicetestlib/*.py*
 
 %changelog
+* Wed Jun 05 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.1-1
+- new package built with tito
+

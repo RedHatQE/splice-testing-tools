@@ -10,7 +10,7 @@ for topdir in ['testing-data']:
         datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, filenames)))
 
 setup(name='splicetestlib',
-    version='0.0',
+    version='0.1',
     description='Splice Testing library',
     author='Vitaly Kuznetsov',
     author_email='vitty@redhat.com',
