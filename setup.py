@@ -5,7 +5,7 @@ import glob
 import os
 
 datafiles = []
-for topdir in ['testing-data']:
+for topdir in ['spacewalk-report-mock']:
     for dirname, dirnames, filenames in os.walk(topdir):
         datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, filenames)))
 

@@ -13,6 +13,14 @@ BuildArch:  noarch
 BuildRequires:	python-devel
 
 %description
+%{summary}
+
+%package -n spacewalk-report-mock
+Summary:	Spacewalk-report mocking tool
+Group:		Development/Tools
+
+%description -n spacewalk-report-mock
+%{summary}
 
 %prep
 %setup -q
@@ -21,7 +29,7 @@ BuildRequires:	python-devel
 
 %install
 %{__python} setup.py install -O1 --root $RPM_BUILD_ROOT
-pushd $RPM_BUILD_ROOT/%{_datadir}/%name/testing-data
+pushd $RPM_BUILD_ROOT/%{_datadir}/%name/spacewalk-report-mock
 ln -s test001 current
 popd
 
@@ -31,10 +39,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc LICENSE README.md
-%attr(0755, root, root) %{_bindir}/*
-%{_datadir}/%name/testing-data
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
+
+%files -n spacewalk-report-mock
+%attr(0755, root, root) %{_bindir}/spacewalk-report
+%{_datadir}/%name/spacewalk-report-mock
 
 %changelog
 * Wed Jun 05 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.1-1
