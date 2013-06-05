@@ -1,0 +1,3 @@
+organization_id,organization,user_id,username,last_name,first_name,position,email,role,creation_time,last_login_time,active
+1,Red Hat (Internal Use Only),1,admin,Kuznetsov,Vitaly,,vitty@redhat.com,Organization Administrator;Satellite Administrator,2013-05-24 08:57:50,,enabled
+2,org1,2,adminorg1,Kuznetsov,Vitaly,,vitty@redhat.com,Organization Administrator,2013-05-24 09:04:26,,enabled

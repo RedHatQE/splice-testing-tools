@@ -1,0 +1,3 @@
+#! /bin/sh
+
+cat /usr/share/splice-testing-tools/testing-data/current/$1
