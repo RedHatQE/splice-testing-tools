@@ -1,0 +1,33 @@
+
+admin-email = root@localhost
+
+ssl-set-org = Example, Inc.
+ssl-set-org-unit = .
+ssl-set-city = Brno
+ssl-set-state = .
+ssl-set-country = CZ
+
+ssl-password = reset 
+
+ssl-config-sslvhost = y
+
+satellite-cert-file = {{ rhn['cert'] }}
+
+rhn-parent = satellite.rhn.redhat.com
+rhn-username = {{ rhn['user'] }}
+rhn-password = {{ rhn['password'] }}
+rhn-sysname = {{ rhn['sysname'] }}
+
+rhn-http-proxy =
+rhn-http-proxy-username =
+rhn-http-proxy-password =
+
+rhn-profile-name = {{ rhn['sysname'] }}
+
+# Only needed because of bug 480759 - should default to admin-email
+ssl-set-email = root@localhost
+
+# Cobbler requires tftp and xinetd services be turned on for PXE
+# provisioning functionality. Enable these services
+enable-tftp = Y
+enable-xinetd = Y

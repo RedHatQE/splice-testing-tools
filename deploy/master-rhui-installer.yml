@@ -1,0 +1,98 @@
+# the inventory should provide MASTER group containing the master node public
+# address
+- name: setup master node
+  hosts:
+  - MASTER
+  user: root
+
+  vars:
+  - git_dest: /usr/src
+
+  - packages:
+    - git
+    - make
+    - vim
+    - PyYAML
+    - python-paramiko
+    - python-jinja2
+    - python-setuptools
+    - python-devel
+    - asciidoc
+    - rpm-build
+    - python-nose
+    - pymongo
+
+  - easy_install_packages:
+    - "http://darcs.idyll.org/~t/projects/pinocchio-latest.tar.gz"
+
+  - repositories:
+    - {name: ansible, url: "https://github.com/ansible/ansible.git"}
+    - {name: tito, url: "https://github.com/dgoodwin/tito.git"}
+
+  - rhui_repositories:
+    - {name: python-patchwork, url: "https://github.com/RedHatQE/python-patchwork.git"}
+    - {name: python-moncov, url: "https://github.com/RedHatQE/python-moncov.git"}
+    - {name: rhui-testing-tools, url: "https://github.com/RedHatQE/rhui-testing-tools.git"}
+
+  vars_files:
+  - common/vars/storage.yml
+
+  tasks:
+  - include: common/patch_sudoers.yml
+
+  - name: install packages
+    action: yum
+      name=${item}
+      state=installed
+    with_items: ${packages}
+    tags:
+    - packages
+
+  - name: easy install packages
+    action: easy_install name=${item}
+    with_items: ${easy_install_packages}
+    tags:
+    - easy_install
+
+  - name: clone required repositories
+    action: git
+      repo=${item.url}
+      dest=${git_dest}/${item.name}
+    with_items: ${repositories}
+    tags:
+    - repositories
+
+  - name: clone required rhui repos
+    action: git
+        repo=${item.url}
+        dest=${git_dest}/${item.name}
+    with_items: ${rhui_repositories}
+    tags:
+    - repositories
+
+
+  - name: install ansible
+    action: shell make install
+        chdir=${git_dest}/ansible
+    tags:
+    - install
+
+  - name: install tito
+    action: shell ./setup.py install
+        chdir=${git_dest}/tito
+    tags:
+    - install
+
+  - name: install required rhui tools from their repos
+    action: shell tito build --test --rpm --install
+        chdir=${git_dest}/${item.name}
+    with_items: ${rhui_repositories}
+    tags:
+    - install
+
+  # copy and mount rhui iso image;
+  # use "extra vars" on commandline to specify custom iso location instead of
+  # the default /tmp/rhui.iso: -e rhui_iso.src=./custom/rhui/iso
+  - include: common/rhui_iso.yml
+
+

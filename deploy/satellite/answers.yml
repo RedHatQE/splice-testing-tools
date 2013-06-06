@@ -1,0 +1,33 @@
+# provide answers file for splice:install.pl
+# requires rhn.user, rhn.password, rhn.sysname vars
+- name: satellite install answers file
+  action: template
+    src=satellite/templates/answers.j2
+    dest=${answers.file}
+    owner=root
+    group=root
+  when_set: ${answers.file}
+  when_set: ${rhn.user}
+  when_set: ${rhn.password}
+  when_set: ${rhn.sysname}
+  when_set: ${rhn.cert}
+  tags:
+  - satellite_answers
+
+- name: copy satellite cert
+  action: copy
+    src=${credentials.rhn_cert}
+    dest=${credentials.rhn_cert}
+    owner=${credentials.owner}
+    group=${credentials.group}
+    mode=${credentials.mode}
+  when_set: ${credentials.rhn_cert}
+  when_set: ${credentials.path}
+  when_set: ${credentials.owner}
+  when_set: ${credentials.group}
+  when_set: ${credentials.mode}
+  tags:
+  - credentials
+  - credentials_copy_cert
+
+

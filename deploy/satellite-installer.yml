@@ -1,0 +1,50 @@
+# setup a SATELLITE node
+- name: setup satellite node
+  hosts:
+  - SATELLITE
+  user: root
+
+  vars_files:
+  - satellite/vars/iso.yml
+  - satellite/vars/rhn.yml
+  - satellite/vars/answers.yml
+
+  # black magic
+  - satellite/vars/credentials.yml
+  - [ "{{ credentials['path']  }}" ]
+
+  tasks:
+  # copy and mount the satellite iso
+  - include: common/iso.yml
+
+  # provide satellite install answers 
+  # reuses credentials vars_file
+  - include: satellite/answers.yml
+    vars:
+      rhn:
+        user: $rhn_user
+        password: $rhn_password
+        sysname: $rhn_system_name
+        cert: $rhn_cert
+
+  # install satellite
+  - include: satellite/install.yml
+
+  # open firewall
+  - include: common/iptables_ports.yml
+    vars:
+      open_ports:
+      - 443
+
+  # fetch cert rpm
+  - include: satellite/cert_rpm_fetch.yml
+
+- name: install certs on master
+  hosts:
+  - Master
+  connection: local
+  user: root
+
+  tasks:
+  - include: satellite/cert_rpm_install.yml
+  

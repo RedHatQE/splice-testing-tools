@@ -1,0 +1,22 @@
+# the satellite master deploy playbook
+- name: setup master node
+  hosts:
+  - MASTER
+  user: root
+
+  vars_files:
+    - satellite/vars/iso.yml
+    - [/etc/satellite-credentials.yml, satellite/vars/credentials.yml]
+
+  tasks:
+  - include: common/patch_sudoers.yml
+  - include: common/master/packages.yml
+  - include: common/master/repos.yml
+  - include: satellite/master/packages.yml
+  - include: satellite/master/repos.yml
+  - include: satellite/master/selenium.yml
+
+  - include: satellite/credentials.yml
+
+  # copy (& mount) the satellite iso
+  - include: common/iso.yml
