@@ -19,6 +19,8 @@
   - rpm-build
   - python-nose
   - pymongo
+  - python-plumbum
+  - python-rpyc
 
 - name: easy install packages
   action: easy_install name=${item}
