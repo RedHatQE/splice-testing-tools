@@ -9,7 +9,7 @@
   with_items:
   - {name: python-patchwork, url: "https://github.com/RedHatQE/python-patchwork.git", version: HEAD}
   - {name: python-moncov, url: "https://github.com/RedHatQE/python-moncov.git", version: HEAD}
-  - {name: rhui-testing-tools, url: "https://github.com/RedHatQE/rhui-testing-tools.git", version: with_splice}
+  - {name: splice-testing-tools, url: "https://github.com/RedHatQE/splice-testing-tools.git", version: HEAD}
 
 - name: install splice tools from repos
   action: shell tito build --test --rpm --install
