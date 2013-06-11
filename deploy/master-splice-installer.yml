@@ -17,3 +17,6 @@
 
   # copy (& mount) sam iso
   - include: common/iso.yml
+
+  # configure remote ansible
+  - include: common/master/ansible.yml

@@ -1,0 +1,9 @@
+# master-specific ansible deployment
+
+- name: ansible config file
+  action: template
+    src=common/master/templates/ansible.cfg.j2
+    dest=/root/.ansible.cfg
+  tags:
+  - ansible
+  - configuration

@@ -20,3 +20,6 @@
 
   # copy (& mount) the satellite iso
   - include: common/iso.yml
+
+  # configure remote ansible
+  - include: common/master/ansible.yml
