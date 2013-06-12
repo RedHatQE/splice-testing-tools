@@ -1,0 +1,29 @@
+#! /bin/sh -e
+
+if [ -z "$1" ]; then
+   echo "usage: $0 <valid-test-name|-n>"
+   exit 1
+fi
+
+if [ "$1" = "-n" ]; then
+    tname=`readlink /usr/share/splice-testing-tools/spacewalk-report-mock/current | sed 's,/.*$,,'`
+    step=step$((`readlink /usr/share/splice-testing-tools/spacewalk-report-mock/current | sed 's,.*/step,,'`+1))
+else
+    tname=$1
+    step=step1
+fi
+
+if [ ! -d /usr/share/splice-testing-tools/spacewalk-report-mock/$tname ]; then
+   echo "no such test: $tname"
+   exit 1
+fi
+
+if [ ! -d /usr/share/splice-testing-tools/spacewalk-report-mock/$tname/$step ]; then
+   echo "no such step: $step"
+   exit 1
+fi
+
+pushd /usr/share/splice-testing-tools/spacewalk-report-mock > /dev/null 2>&1
+rm -f current
+ln -s $tname/$step current
+popd  > /dev/null 2>&1

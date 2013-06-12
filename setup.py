@@ -2,12 +2,16 @@
 
 from setuptools import setup
 import glob
+import subprocess
 import os
 
 datafiles = []
-for topdir in ['spacewalk-report-mock']:
+for test in glob.glob('spacewalk-report-mock/test*/*.py'):
+    subprocess.check_call(['python', test, os.path.dirname(test)])
+
+for topdir in glob.glob('spacewalk-report-mock/test*'):
     for dirname, dirnames, filenames in os.walk(topdir):
-        datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, filenames)))
+        datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, [fn for fn in filenames if fn.endswith(".csv")])))
 
 setup(name='splicetestlib',
     version='0.1',

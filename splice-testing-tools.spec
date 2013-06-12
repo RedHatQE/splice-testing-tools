@@ -3,7 +3,7 @@ Version:	0.1
 Release:	1%{?dist}
 Summary:	Splice Testing library
 
-Group:		Development/Python
+Group:		Development/Tools
 License:	GPLv3+
 URL:		https://github.com/RedHatQE/splice-testing-tools
 Source0:	%{name}-%{version}.tar.gz
@@ -29,12 +29,12 @@ Group:		Development/Tools
 
 %install
 %{__python} setup.py install -O1 --root $RPM_BUILD_ROOT
-pushd $RPM_BUILD_ROOT/%{_datadir}/%name/spacewalk-report-mock
-ln -s test001 current
-popd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post -n spacewalk-report-mock
+%{_bindir}/spacewalk-report-set test1
 
 %files
 %defattr(-,root,root,-)
@@ -44,6 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n spacewalk-report-mock
 %attr(0755, root, root) %{_bindir}/spacewalk-report
+%attr(0755, root, root) %{_bindir}/spacewalk-report-set
 %{_datadir}/%name/spacewalk-report-mock
 
 %changelog

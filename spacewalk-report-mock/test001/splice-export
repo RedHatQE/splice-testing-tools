@@ -1,3 +1,0 @@
-server_id,organization,org_id,name,hostname,ip_address,ipv6_address,registered_by,registration_time,last_checkin_time,software_channel,entitlements,system_group,virtual_host,architecture,hardware,memory,sockets
-1000010000,Red Hat (Internal Use Only),1,ip-10-64-147-151.eu-west-1.compute.internal,ip-10-64-147-151.eu-west-1.compute.internal,10.64.147.151,::1,admin,2013-05-24 09:53:47,2013-05-27 06:17:38,rhel-x86_64-client-6;rhel-x86_64-client-supplementary-6,Spacewalk Management Entitled Servers,,,x86_64,1 CPUs 1 Sockets; eth0 10.64.147.151/255.255.254.0 12:31:43:07:94:69; lo 127.0.0.1/255.0.0.0 00:00:00:00:00:00,1655,1
-
