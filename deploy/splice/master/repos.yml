@@ -17,7 +17,7 @@
   with_items:
   - python-patchwork
   - python-moncov
-  - rhui-testing-tools
+  - splice-testing-tools
   tags:
   - splice_master_repos
   - install_splice_tools
