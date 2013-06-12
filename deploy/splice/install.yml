@@ -3,7 +3,8 @@
   action: selinux
     state=disabled
   tags:
-  - sam_install
+  - sam
+  - install
   - selinux
 
 ### TODO: figure out which method should be used
@@ -14,27 +15,52 @@
     creates=/tmp/sam_installed.mark
   register: sam_install_status
   when_set: ${iso.mount_path}
+  ignore_errors: true
   tags:
-  - sam_install
+  - sam
+  - install
   - execute_install_script
 
-#- name: install sam
-#  action: yum
-#    name: ${item}
-#    state=present
-#    enablerepo=SAM
-#  with_items:
-#  - katello-headpin-all
-#  - splice
-#  tags:
-#  - sam_install
-#  - packages
-
+- name: install sam packages with yum
+  action: yum
+    name=${item}
+    state=present
+    enablerepo="*"
+  with_items:
+  - v8
+  - katello-headpin-all
+  - ruby193-rubygem-splice_reports 
+  - splice 
+  - spacewalk-splice-tool
+  tags:
+  - sam
+  - install
+  - packages
 
 - name: execute configure script
   action: shell katello-configure --reset-data="YES" --deployment headpin --user-pass ${item}
   with_password:
   - /etc/katello_password
   tags:
-  - sam_install
+  - sam
+  - install
   - execute_configure_script
+
+- name: enable katello service
+  action: service
+    name=katello
+    state=started
+    enabled=true
+  tags:
+  - service
+  - sam
+
+- name: wait for katello port
+  action: wait_for
+    port=8088
+    host=${inventory_hostname}
+    delay=10
+  tags:
+  - service
+  - sam
+  - wait_for
