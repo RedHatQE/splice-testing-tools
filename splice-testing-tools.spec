@@ -23,11 +23,12 @@ Group:		Development/Tools
 %description -n spacewalk-report-mock
 %{summary}
 
-%package selenium-splice-server
+%package -n selenium-splice-server
 Summary: selenium and Xvfb services
 Group: Development/Python
 Requires: xorg-x11-server-Xvfb java
-%description selenium-splice-server
+
+%description -n selenium-splice-server
 The Xvfb and selenium services to use when testing splice
 
 
@@ -52,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc LICENSE README.md
+%attr(0755, root, root) %{_bindir}/*.py
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
 
@@ -59,7 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{_bindir}/spacewalk-report
 %{_datadir}/%name/spacewalk-report-mock
 
-%files selenium-splice-server
+%files -n selenium-splice-server
 %if 0%{?fedora} >= 15
 %config(noreplace) %attr(0640, root, root) %{_unitdir}/selenium-splice-xvfb.service
 %config(noreplace) %attr(0640, root, root) %{_unitdir}/selenium-splice.service
@@ -67,18 +69,18 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 %attr(0644, root, root) %{_javadir}/%{name}/selenium-server.jar
 
-%post selenium-splice-server
+%post -n selenium-splice-server
 %if 0%{?fedora} >= 15
 /bin/systemctl daemon-reload &> /dev/null ||:
 %endif
 
-%preun selenium-splice-server
+%preun -n selenium-splice-server
 %if 0%{?fedora} >= 15
 /bin/systemctl --no-reload disable selenium-splice.service
 /bin/systemctl stop selenium-splice.service
 %endif
 
-%postun selenium-splice-server
+%postun -n selenium-splice-server
 %if 0%{?fedora} >= 15
 /bin/systemctl daemon-reload &> /dev/null
 if [ "$1" -ge "1" ] ; then
