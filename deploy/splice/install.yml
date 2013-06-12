@@ -58,7 +58,6 @@
 - name: wait for katello port
   action: wait_for
     port=8088
-    host=${inventory_hostname}
     delay=10
   tags:
   - service
