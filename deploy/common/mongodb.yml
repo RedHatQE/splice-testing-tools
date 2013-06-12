@@ -2,7 +2,7 @@
 
 - name: install mongodb
   action: yum
-    name=${item}
+    name=mongodb
     state=present
   tags:
   - mongodb
