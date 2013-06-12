@@ -25,7 +25,6 @@
   action: yum
     name=${item}
     state=present
-    enablerepo="*"
   with_items:
   - v8
   - katello-headpin-all
