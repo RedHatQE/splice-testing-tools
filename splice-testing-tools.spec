@@ -7,7 +7,6 @@ Group:		Development/Tools
 License:	GPLv3+
 URL:		https://github.com/RedHatQE/splice-testing-tools
 Source0:	%{name}-%{version}.tar.gz
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:  noarch
 
 BuildRequires:	python-devel
@@ -31,7 +30,6 @@ Requires: xorg-x11-server-Xvfb java
 %description -n selenium-splice-server
 The Xvfb and selenium services to use when testing splice
 
-
 %prep
 %setup -q
 
@@ -42,7 +40,7 @@ The Xvfb and selenium services to use when testing splice
 
 %{__mkdir_p} $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 %{__mkdir_p} $RPM_BUILD_ROOT%{_javadir}/%{name}
-%{__urlhelpercmd} http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar -o $RPM_BUILD_ROOT%{_javadir}/%{name}/selenium-server.jar
+cp selenium/selenium-server-standalone-2.31.0.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/selenium-server.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,10 +87,10 @@ if [ "$1" -ge "1" ] ; then
 fi
 %endif
 
-
 %changelog
 * Wed Jun 12 2013 Milan Kovacik <mkovacik@redhat.com> 0.1-2
 - add selenium-related sub-package
+
 * Wed Jun 05 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.1-1
 - new package built with tito
 
