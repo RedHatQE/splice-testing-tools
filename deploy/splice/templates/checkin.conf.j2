@@ -1,0 +1,52 @@
+## This tool is run every 4 hours based on the crontab in /etc/cron.d/spacewalk-splice-tool.cron;
+## Update the crontab file to change the frequency.
+
+[main]
+# socket timeout to set for contacting services (splice, spacewalk, katello)
+socket_timeout = 300
+
+[splice]
+# splice server hostname
+hostname: localhost
+
+# splice server port
+port: 443
+
+# splice server rest api handler
+handler: /splice/api/
+
+# splice server id x509 certificate location
+splice_id_cert: /etc/pki/consumer/Splice_identity.cert
+splice_id_key: /etc/pki/consumer/Splice_identity.key
+
+# splice server CA cert
+splice_ca_cert: /etc/pki/splice/splice_ca.cert
+
+# spacewalk-splice-tool emulates an RCS. This is the metadata info it reports
+# up to the upstream RCS.
+splice_server_environment: sst_env_1
+splice_server_description: RCS data for satellite-splice-tool
+splice_server_hostname: sst-host
+
+[logging]
+config = /etc/splice/logging/basic.cfg
+
+[candlepin]
+oauth_key = sst
+oauth_secret = sstsstsst
+#no trailing slash!
+url = https://HOSTNAME:8443/candlepin
+
+[spacewalk]
+host=satellite.example.com
+ssh_key_path=/root/.ssh/id_rsa
+spacewalk_reports=/usr/bin/spacewalk-report
+
+
+[katello]
+hostname=localhost
+port=443
+proto=https
+api_url=/headpin
+admin_user=admin
+admin_pass={{ item }}

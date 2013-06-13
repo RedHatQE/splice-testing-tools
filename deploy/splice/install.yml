@@ -1,0 +1,64 @@
+# install steps for sam
+- name: disable SELinux
+  action: selinux
+    state=disabled
+  tags:
+  - sam
+  - install
+  - selinux
+
+### TODO: figure out which method should be used
+
+- name: execute install script
+  action: shell ./install_packages --enhanced-reporting && touch /tmp/sam_installed.mark
+    chdir=${iso.mount_path}
+    creates=/tmp/sam_installed.mark
+  register: sam_install_status
+  when_set: ${iso.mount_path}
+  ignore_errors: true
+  tags:
+  - sam
+  - install
+  - execute_install_script
+
+- name: install sam packages with yum
+  action: yum
+    name=${item}
+    state=present
+  with_items:
+  - v8
+  - katello-headpin-all
+  - ruby193-rubygem-splice_reports 
+  - splice 
+  - spacewalk-splice-tool
+  tags:
+  - sam
+  - install
+  - packages
+
+- name: execute configure script
+  action: shell katello-configure --reset-data="YES" --deployment headpin --user-pass ${item}
+  with_password:
+  - /etc/katello_password
+  tags:
+  - sam
+  - install
+  - execute_configure_script
+
+- name: enable katello service
+  action: service
+    name=katello
+    state=started
+    enabled=true
+  tags:
+  - service
+  - sam
+
+- name: wait for katello port
+  action: wait_for
+    port=8088
+    delay=10
+  tags:
+  - service
+  - sam
+  - wait_for

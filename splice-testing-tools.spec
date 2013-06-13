@@ -11,6 +11,7 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:  noarch
 
 BuildRequires:	python-devel
+Requires:	python-nose PyYAML
 
 %description
 %{summary}
@@ -22,6 +23,15 @@ Group:		Development/Tools
 %description -n spacewalk-report-mock
 %{summary}
 
+%package -n selenium-splice-server
+Summary: selenium and Xvfb services
+Group: Development/Python
+Requires: xorg-x11-server-Xvfb java
+
+%description -n selenium-splice-server
+The Xvfb and selenium services to use when testing splice
+
+
 %prep
 %setup -q
 
@@ -29,6 +39,10 @@ Group:		Development/Tools
 
 %install
 %{__python} setup.py install -O1 --root $RPM_BUILD_ROOT
+
+%{__mkdir_p} $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
+%{__mkdir_p} $RPM_BUILD_ROOT%{_javadir}/%{name}
+%{__urlhelpercmd} http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar -o $RPM_BUILD_ROOT%{_javadir}/%{name}/selenium-server.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -39,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc LICENSE README.md
+%attr(0755, root, root) %{_bindir}/*.py
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
 
@@ -47,7 +62,37 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{_bindir}/spacewalk-report-set
 %{_datadir}/%name/spacewalk-report-mock
 
+%files -n selenium-splice-server
+%if 0%{?fedora} >= 15
+%config(noreplace) %attr(0640, root, root) %{_unitdir}/selenium-splice-xvfb.service
+%config(noreplace) %attr(0640, root, root) %{_unitdir}/selenium-splice.service
+%config(noreplace) %attr(0640, root, root) %{_sysconfdir}/sysconfig/selenium-splice.conf
+%endif
+%attr(0644, root, root) %{_javadir}/%{name}/selenium-server.jar
+
+%post -n selenium-splice-server
+%if 0%{?fedora} >= 15
+/bin/systemctl daemon-reload &> /dev/null ||:
+%endif
+
+%preun -n selenium-splice-server
+%if 0%{?fedora} >= 15
+/bin/systemctl --no-reload disable selenium-splice.service
+/bin/systemctl stop selenium-splice.service
+%endif
+
+%postun -n selenium-splice-server
+%if 0%{?fedora} >= 15
+/bin/systemctl daemon-reload &> /dev/null
+if [ "$1" -ge "1" ] ; then
+   /bin/systemctl try-restart selenium-splice.service &> /dev/null
+fi
+%endif
+
+
 %changelog
+* Wed Jun 12 2013 Milan Kovacik <mkovacik@redhat.com> 0.1-2
+- add selenium-related sub-package
 * Wed Jun 05 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.1-1
 - new package built with tito
 

@@ -1,0 +1,10 @@
+# provide sst configuration file
+- name: sst configuration file
+  action: template
+    src=splice/templates/checkin.conf.j2
+    dest=/etc/splice/checkin.conf
+  with_file:
+  - /etc/katello_password
+  tags:
+  - sst_configuration_file
+

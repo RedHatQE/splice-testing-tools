@@ -1,0 +1,28 @@
+# ensure mongodb is installed, enabled and running
+
+- name: install mongodb
+  action: yum
+    name=mongodb
+    state=present
+  tags:
+  - mongodb
+  - install
+
+- name: start mongodb
+  action: service
+    name=mongod
+    state=started
+    enabled=yes
+  tags:
+  - mongodb
+  - service
+
+- name: wait for mongod port
+  action: wait_for
+    port=27017
+    delay=10
+  tags:
+  - mongodb
+  - service
+  
+
