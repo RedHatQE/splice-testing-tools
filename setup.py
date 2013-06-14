@@ -38,7 +38,7 @@ setup(name='splicetestlib',
         'splicetestlib'
         ],
     data_files=datafiles + \
-        walk_topdirs('share/splice-testing-tools', ['spacewalk-report-mock']) + \
+        walk_topdirs('share/splice-testing-tools', ['splice-tests']) + \
         walk_topdirs('/usr', ['lib/systemd']) + \
         walk_topdirs('/', ['etc']), 
     classifiers=[

@@ -81,6 +81,8 @@ fi
 %attr(0755, root, root) %{_bindir}/*.py
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
+%attr(0644, root, root) %{_datadir}/%name/splice-tests/*.py
+%exclude %{_datadir}/%name/splice-tests/*.py?
 
 %files -n spacewalk-report-mock
 %attr(0755, root, root) %{_bindir}/spacewalk-report
@@ -100,6 +102,7 @@ fi
 %changelog
 * Thu Jun 13 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.2-1
 - make selenium build optional (vitty@redhat.com)
+
 * Wed Jun 12 2013 Milan Kovacik <mkovacik@redhat.com> 0.1-2
 - add selenium-related sub-package
 
