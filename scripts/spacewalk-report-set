@@ -20,7 +20,7 @@ fi
 
 if [ ! -d /usr/share/splice-testing-tools/spacewalk-report-mock/$tname/$step ]; then
    echo "no such step: $step"
-   exit 1
+   exit 0
 fi
 
 pushd /usr/share/splice-testing-tools/spacewalk-report-mock > /dev/null 2>&1
