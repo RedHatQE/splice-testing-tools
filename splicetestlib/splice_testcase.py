@@ -1,6 +1,7 @@
 import os
 import patchwork
 import logging
+import nose
 from splicetestlib.katello import Katello
 
 class SpliceTestcase(object):
@@ -58,5 +59,5 @@ class SpliceTestcase(object):
 class Splice_has_FAKE_SPACEWALK(object):
     @classmethod
     def check(self, ss):
-        if (not "FAKE_SPACEWALK" in ss.Instances.keys()) or len(rs.Instances["FAKE_SPACEWALK"]) < 1:
+        if (not "FAKE_SPACEWALK" in ss.Instances.keys()) or len(ss.Instances["FAKE_SPACEWALK"]) < 1:
             raise nose.exc.SkipTest("can't test without fake spacewalk!")
