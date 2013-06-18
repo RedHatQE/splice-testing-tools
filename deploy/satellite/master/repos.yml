@@ -12,7 +12,7 @@
   - {name: splice-testing-tools, url: "https://github.com/RedHatQE/splice-testing-tools.git", version: HEAD}
 
 - name: install satellite tools from repos
-  action: shell tito build --test --rpm --install
+  action: shell tito build --test --rpm --rpmbuild "-D 'with_selenium 1'" --install
     chdir=/usr/src/${item}
   with_items:
   - python-patchwork
