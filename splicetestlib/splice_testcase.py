@@ -18,7 +18,7 @@ class SpliceTestcase(object):
         else:
             typeinstance.ss.setup_from_yamlfile(yamlfile="/etc/splice-testing.yaml", output_shell=True)
         if "KATELLO" in typeinstance.ss.Instances:
-            typeinstance.katello = Katello(typeinstance.ss.Instances["KATELLO"][0])
+            typeinstance.katello = Katello(typeinstance.ss.Instances["KATELLO"][0].hostname)
         else:
             typeinstance.katello = None
         typelist = [typeinstance]
