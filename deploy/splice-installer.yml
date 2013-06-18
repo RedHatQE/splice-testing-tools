@@ -11,7 +11,7 @@
   # copy and mount the sam iso
   - include: common/iso.yml
 
-  - include: common/mongodb.yml
+  # - include: common/mongodb.yml
   - include: splice/install.yml
   - include: splice/checkin_configure.yml
 
