@@ -25,10 +25,8 @@
   action: yum
     name=${item}
     state=present
-    disable_gpg_check=yes
   with_items:
   - v8
-  - mongodb
   - katello-headpin-all
   - ruby193-rubygem-splice_reports 
   - splice 
@@ -37,23 +35,6 @@
   - sam
   - install
   - packages
-
-- name: start mongodb
-  action: service
-    name=mongod
-    state=started
-    enabled=yes
-  tags:
-  - mongodb
-  - service
-
-- name: wait for mongod port
-  action: wait_for
-    port=27017
-    delay=10
-  tags:
-  - mongodb
-  - service
 
 - name: execute configure script
   action: shell katello-configure --reset-data="YES" --deployment headpin --user-pass ${item}

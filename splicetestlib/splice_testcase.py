@@ -4,25 +4,6 @@ import logging
 import nose
 from splicetestlib.katello import Katello
 
-def traverse_mro(type_instance):
-    # traverse mro of a type_instance returning a list of type_instances
-    # in order from least generic type to most generic type
-    # e.g. test_case -> object
-    type_list = [type_instance]
-    for type_item in type_list:
-        type_list += [ type_parent for type_parent in type_item.__bases__ if type_parent not in type_list ]
-    return type_list
-
-def call_methods(method_name, object_list, *args, **kvargs):
-    # filter + run method based on given method_name on a list of objects
-    map(
-        lambda object_instance: getattr(object_instance, method_name)(*args, **kvargs),
-        filter(
-            lambda object_instance: hasattr(object_instance, method_name),
-            object_list
-        )
-    )
-
 class SpliceTestcase(object):
     @classmethod
     def setupAll(typeinstance):
@@ -40,22 +21,21 @@ class SpliceTestcase(object):
             typeinstance.katello = Katello(typeinstance.ss.Instances["KATELLO"][0].hostname)
         else:
             typeinstance.katello = None
-
-        # figure out type-based check-ers and preparators
-        typelist = traverse_mro(typeinstance)
-
-        # check from the least generic type up to the most generic type i.e. test_case -> object
-        call_methods("check", typelist, typeinstance.ss)
-
-        # call preparers from the most generic type downto the least generic type i.e. object -> test_case
-        call_methods("prepare", reversed(typelist), typeinstance.ss)
+        typelist = [typeinstance]
+        for cls in typelist:
+            logging.debug("Exploring class " + str(cls))
+            logging.debug("Adding base classes: " + str(list(cls.__bases__)) + " to typelist")
+            for new_cls in list(cls.__bases__):
+                if not new_cls in typelist:
+                    logging.debug("Appending " + str(new_cls) + " to classlist")
+                    typelist.append(new_cls)
+            logging.debug("Checking for 'check' method of " + str(cls))
+            if hasattr(cls, "check"):
+                logging.debug("Calling 'check' for " + str(cls))
+                cls.check(typeinstance.ss)
 
     @classmethod
     def teardownAll(typeinstance):
-        # call cleaners from the least generic type up to the most generic type i.e. test_case -> object
-        call_methods("cleanup", traverse_mro(typeinstance), typeinstance.ss)
-
-        # clean-up the ss structure
         typeinstance.ss.__del__()
 
     def __init__(self):
