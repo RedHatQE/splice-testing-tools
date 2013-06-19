@@ -77,7 +77,39 @@ class SpliceTestcase(object):
 
 
 class Splice_has_FAKE_SPACEWALK(object):
+    _splice_checkin_conf_path = "/etc/splice/checkin.conf"
+
     @classmethod
     def check(self, ss):
-        if (not "FAKE_SPACEWALK" in ss.Instances.keys()) or len(ss.Instances["FAKE_SPACEWALK"]) < 1:
+        if (not "FAKE_SPACEWALK" in ss.Instances) or len(ss.Instances["FAKE_SPACEWALK"]) < 1:
             raise nose.exc.SkipTest("can't test without fake spacewalk!")
+
+    @classmethod
+    def prepare(self, ss):
+        fake_spacewalk = ss.Instances["FAKE_SPACEWALK"][0]
+        katello = ss.Instances["KATELLO"][0]
+
+        # back-up the /etc/splice/checkin.conf file
+        self._orig_splice_checkin_conf_path = katello.pbm["mktemp"]["--tmpdir=/tmp", "splice_checkin_XXXX.conf"]()
+        katello.pbm["cp"]["-f", self._splice_checkin_conf_path, self._orig_splice_checkin_conf_path]()
+
+        # set the [spacewalk] section to point to the FAKE_SPACEWALK's SST tool
+        import ConfigParser
+        katello_conf = ConfigParser.ConfigParser()
+        with katello.rpyc.open(self._splice_checkin_conf_path) as fd:
+            katello_conf.readfp(fd)
+
+        katello_conf.set("spacewalk", "host", fake_spacewalk.hostname)
+        katello_conf.set("spacewalk", "ssh_key_path", "/root/.ssh/id_rsa.pub")
+        katello_conf.set("spacewalk", "spacewalk_reports", "/usr/bin/spacewalk-report")
+
+        with katello.rpyc.open(self._splice_checkin_conf_path, "w+") as fd:
+            katello_conf.write(fd)
+
+    @classmethod
+    def cleanup(self, ss):
+        # put the original /etc/splice/checkin.conf back
+        katello = ss.Instances["KATELLO"][0]
+        katello.pbm["mv"]["-f", self._orig_splice_checkin_conf_path, self._splice_checkin_conf_path]()
+        del(self._orig_splice_checkin_conf_path)
+
