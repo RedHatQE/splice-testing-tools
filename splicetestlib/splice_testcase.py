@@ -96,14 +96,14 @@ class Splice_has_FAKE_SPACEWALK(object):
         # set the [spacewalk] section to point to the FAKE_SPACEWALK's SST tool
         import ConfigParser
         katello_conf = ConfigParser.ConfigParser()
-        with katello.rpyc.open(self._splice_checkin_conf_path) as fd:
+        with katello.rpyc.builtins.open(self._splice_checkin_conf_path) as fd:
             katello_conf.readfp(fd)
 
         katello_conf.set("spacewalk", "host", fake_spacewalk.hostname)
         katello_conf.set("spacewalk", "ssh_key_path", "/root/.ssh/id_rsa.pub")
         katello_conf.set("spacewalk", "spacewalk_reports", "/usr/bin/spacewalk-report")
 
-        with katello.rpyc.open(self._splice_checkin_conf_path, "w+") as fd:
+        with katello.rpyc.builtins.open(self._splice_checkin_conf_path, "w+") as fd:
             katello_conf.write(fd)
 
     @classmethod
