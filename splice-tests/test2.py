@@ -2,10 +2,14 @@ import splicetestlib
 from splicetestlib.splice_testcase import *
 import nose
 
-class test_splice_2(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
+class test_splice_2(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
     def _setup(self):
         splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
         splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test2")
+        # creating orgs
+        splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+        # uploading manifest
+        splicetestlib.katello.upload_manifest("2", self.ss.config["manifest"])
         for step in range(84):
             splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
