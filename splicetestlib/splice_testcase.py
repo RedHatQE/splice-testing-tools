@@ -113,3 +113,9 @@ class Splice_has_FAKE_SPACEWALK(object):
         katello.pbm["mv"]["-f", self._orig_splice_checkin_conf_path, self._splice_checkin_conf_path]()
         del(self._orig_splice_checkin_conf_path)
 
+
+class Splice_has_Manifest(object):
+    @classmethod
+    def check(self, ss):
+        if (not "manifest" in ss.config):
+            raise nose.exc.SkipTest("can't test without manifest!")
