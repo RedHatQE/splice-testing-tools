@@ -1,5 +1,5 @@
 import requests
-
+import time
 
 class Katello(object):
     """ Katello API calls """
@@ -13,7 +13,10 @@ class Katello(object):
     @staticmethod
     def _request_return(req):
         if req.status_code == 200:
-            return req.json()
+            try:
+                return req.json()
+            except ValueError:
+                return {}
         else:
             return None
 
@@ -24,6 +27,10 @@ class Katello(object):
     def list_systems(self, organization_label):
         """ List systems """
         return self._request_return(requests.get('https://%s%s/api/organizations/%s/systems' % (self.hostname, self.path, organization_label), auth=(self.username, self.password), verify=self.verify))
+
+    def list_providers(self, organization_label):
+        """ List providers """
+        return self._request_return(requests.get('https://%s%s/api/organizations/%s/providers' % (self.hostname, self.path, organization_label), auth=(self.username, self.password), verify=self.verify))
 
     def list_attached_subscriptions(self, system_id):
         """ List attached subscriptions """
@@ -43,5 +50,23 @@ class Katello(object):
 
     def attach_subscription(self, system_id, pool_id, quantity=1):
         """ Attach subscription from pool """
-        data = data = {"quantity": quantity, 'pool': pool_id}
+        data = {"quantity": quantity, 'pool': pool_id}
         return self._request_return(requests.post("https://%s%s/api/systems/%s/subscriptions" % (self.hostname, self.path, system_id), auth=(self.username, self.password), verify=self.verify, params=data))
+
+    def upload_manifest(self, provider_id, manifest_file):
+        """ Upload manifest """
+        files = {'import': ('manifest.zip', open(manifest_file, 'rb'))}
+        ret = self._request_return(requests.post("https://%s%s/api/providers/%s/import_manifest" % (self.hostname, self.path, provider_id), auth=(self.username, self.password), verify=self.verify, files=files))
+        task_id = ret["uuid"]
+        cnt = 30
+        while cnt > 0:
+            task_status = self._request_return(requests.get("https://%s%s/api/tasks/%s" % (self.hostname, self.path, task_id), auth=(self.username, self.password), verify=self.verify))
+            if task_status is None:
+                break
+            if task_status['pending?'] == False:
+                return task_status
+            time.sleep(2)
+
+    def delete_manifest(self, provider_id):
+        """ Delete manifest """
+        return self._request_return(requests.post("https://%s%s/api/providers/%s/delete_manifest" % (self.hostname, self.path, provider_id), auth=(self.username, self.password), verify=self.verify))
