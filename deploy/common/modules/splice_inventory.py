@@ -105,7 +105,7 @@ if __name__ == '__main__':
                           help='give host details rather with public ip')
     argparser.add_argument('-i', '--with-inventory',
                           dest='inventory',
-                          default='/etc/rhui-testing.yaml',
+                          default='/etc/splice-testing.yaml',
                           help='provide custom inventory file')
 
     args = argparser.parse_args()

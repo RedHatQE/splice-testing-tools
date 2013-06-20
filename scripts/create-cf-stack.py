@@ -110,15 +110,15 @@ def setup_slave(client, sftp, hostname, hostsfile, yamlfile, master_keys, setup_
     - Allow connections from masters
     - Set hostname
     - Write /etc/hosts
-    - Write /etc/rhui-testing.yaml
+    - Write /etc/splice-testing.yaml
     '''
     try:
         client.run_sync("touch /tmp/hosts")
         sftp.put(hostsfile, "/tmp/hosts")
         client.run_sync("cat /etc/hosts >> /tmp/hosts")
         client.run_sync("sort -u /tmp/hosts > /etc/hosts")
-        sftp.put(yamlfile, "/etc/rhui-testing.yaml")
-        client.run_sync("touch /etc/rhui-testing.yaml")
+        sftp.put(yamlfile, "/etc/splice-testing.yaml")
+        client.run_sync("touch /etc/splice-testing.yaml")
         if hostname:
             client.run_sync("hostname " + hostname)
             client.run_sync("sed -i 's,^HOSTNAME=.*$,HOSTNAME=" + hostname + ",' /etc/sysconfig/network")
