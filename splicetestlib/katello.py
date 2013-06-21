@@ -20,6 +20,10 @@ class Katello(object):
         else:
             return None
 
+    def list_roles(self):
+        """ List roles """
+        return self._request_return(requests.get('https://%s%s/api/roles' % (self.hostname, self.path), auth=(self.username, self.password), verify=self.verify))
+
     def list_organizations(self):
         """ List oraganizations """
         return self._request_return(requests.get('https://%s%s/api/organizations' % (self.hostname, self.path), auth=(self.username, self.password), verify=self.verify))
