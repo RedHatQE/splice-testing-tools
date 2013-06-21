@@ -17,12 +17,12 @@ fd_users.close()
 def generate(dirname):
     print_all("%s/step1" % dirname, {'host_guests': [],
                                      'cloned_channels': [],
-                                     'users': [users],
+                                     'users': users,
                                      'splice_export': []})
-    users['organization'] = 'TestOrg2'
+    users[1]['organization'] = 'TestOrg2'
     print_all("%s/step2" % dirname, {'host_guests': [],
                                      'cloned_channels': [],
-                                     'users': [users],
+                                     'users': users,
                                      'splice_export': []})
 
 if len(sys.argv) > 1:

@@ -1,4 +1,8 @@
-{active: enabled, creation_time: '2013-05-24 08:57:50', email: vitty@redhat.com, first_name: Admin,
-  last_login_time: '', last_name: Admin, organization: TestOrg1,
+- {active: enabled, creation_time: '2013-05-24 08:57:50', email: admin@localhost,
+  first_name: Admin, last_login_time: '', last_name: Admin, organization: 'Spacewalk Default Organization',
   organization_id: '1', position: '', role: Organization Administrator;Satellite Administrator,
   user_id: '1', username: admin}
+- {active: enabled, creation_time: '2013-05-24 08:57:50', email: adminorg1@localhost,
+  first_name: Adminorg1, last_login_time: 'Adminorg1', last_name: Adminorg1, organization: TestOrg1,
+  organization_id: '2', position: '', role: Organization Administrator,
+  user_id: '2', username: adminorg1}
