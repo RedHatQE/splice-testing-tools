@@ -1,3 +1,13 @@
+- name: create user SSH dir
+  # using a poor-man's dirname()
+  action: file
+    state=directory
+    path={{ "/".join(ssh_keys_file.split("/")[:-1]) }} 
+    mode=0600
+  when: "ssh_keys_file is defined"
+  tags:
+  - ssh_keygen
+
 - name: create user SSH key pair
   action: shell ssh-keygen -f ${ssh_keys_file} -t rsa -N "" -P ""
     creates=${ssh_keys_file}

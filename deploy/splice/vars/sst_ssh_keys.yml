@@ -1,6 +1,6 @@
 ssh_keys_top_dir: /tmp/ssh_keys
 ssh_keys_host: ${groups.SAM[0]}
-ssh_keys_file: /root/.ssh/sst_id_rsa
+ssh_keys_file: /var/lib/splice/.ssh/id_rsa
 ssh_authorized_keys_file: /root/.ssh/authorized_keys
 ssh_authorized_keys_hardening: |-
   command="spacewalk-report \"$SSH_ORIGINAL_COMMAND\""
