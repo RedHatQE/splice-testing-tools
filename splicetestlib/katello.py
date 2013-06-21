@@ -3,7 +3,7 @@ import time
 
 class Katello(object):
     """ Katello API calls """
-    def __init__(self, hostname='localhost', path='/headpin', username='admin', password='admin', verify=False):
+    def __init__(self, hostname='localhost', path='/sam', username='admin', password='admin', verify=False):
         self.hostname = hostname
         self.path = path
         self.username = username
