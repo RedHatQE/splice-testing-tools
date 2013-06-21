@@ -1,3 +1,8 @@
 ssh_keys_top_dir: /tmp/ssh_keys
-ssh_keys_host: ~
-ssh_keys_user: ~
+ssh_keys_host: ~                          # ${groups.MASTER[0]}
+ssh_keys_file: ~                          # /root/.ssh/id_rsa
+ssh_authorized_keys_file: ~               # /root/.ssh/authorized_keys
+
+# will end up in authorized keys in the line form:
+#   command="spacewalk-report \"$SSH_ORIGINAL_COMMAND\"" ssh-rsa AAAAB3N......
+ssh_authorized_keys_hardening: ~

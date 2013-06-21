@@ -1,31 +1,31 @@
-# requires ssh_keys_host and ssh_keys_user to operate
+# requires ssh_keys_host and ssh_keys_file to operate
 # ssh ssh_keygen tasks have to run before
 # schema:
-#  ssh_keys_host/ssh_keys_user -> ansible_hostname/ansible_user
+#  ssh_keys_host/ssh_keys_file.pub -> ansible_user_id@ansible_hostname:/ssh_authorized_keys_file
 
-# FIXME: the conditional doesn't prevent with_file from loading a
-# non-existing file --- not sure how to avoid it
-# to trigger: try ssh_keys_user != root or uncomment the last action
-- name: authorize an ssh key for the root user and a role
+- name: authorize an ssh key for a user and a role
   action: authorized_key
     key="${item}"
     user=${ansible_user_id}
+    path=${ssh_authorized_keys_file}
     state=present
-  only_if: 'is_set("${ssh_keys_top_dir}") and "${ssh_keys_user}" == "root"'
+  when: "ssh_authorized_keys_file is defined"
+  when: "ssh_authorized_keys_hardening is not defined"
   with_file:
-  - ${ssh_keys_top_dir}/${ssh_keys_host}/root/.ssh/id_rsa.pub
+  - ${ssh_keys_top_dir}/${ssh_keys_host}/${ssh_keys_file}.pub
   tags:
-  - authorize_key
-  - root_key
+  - ssh_authorize_key
 
-#- name: authorize an ssh key for a user and a role
-#  action: authorized_key
-#    key="${item}"
-#    user=${ansible_user_id}
-#    state=present
-#  only_if: 'is_set("${ssh_keys_top_dir}") and "${ssh_keys_user}" != "root"'
-#  with_file:
-#  - "${ssh_keys_top_dir}/${ssh_keys_host}/home/${ssh_keys_user}/.ssh/id_rsa.pub"
-#  tags:
-#  - authorize_key
-#  - other_user
+- name: authorize and harden an ssh key for a user and a role
+  action: authorized_key
+    key='${ssh_authorized_keys_hardening} ${item}'
+    user=${ansible_user_id}
+    path=${ssh_authorized_keys_file}
+    state=present
+  when: "ssh_authorized_keys_file is defined"
+  when: "ssh_authorized_keys_hardening is defined"
+  with_file:
+  - ${ssh_keys_top_dir}/${ssh_keys_host}/${ssh_keys_file}.pub
+  tags:
+  - ssh_authorize_key
+

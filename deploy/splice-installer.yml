@@ -21,3 +21,26 @@
       open_ports:
       - 443
       - 8088
+
+- name: ssh_keygen for splice root
+  hosts:
+  - SAM
+  user: root
+
+  vars_files:
+  - splice/vars/sst_ssh_keys.yml
+
+  tasks:
+  - include: common/ssh_keygen.yml
+
+- name: authorize root splice for master for fake sst
+  connection: local 
+  user: root
+  hosts:
+  - Master
+
+  vars_files:
+  - splice/vars/sst_ssh_keys.yml
+
+  tasks:
+  - include: common/ssh_authorize_key.yml

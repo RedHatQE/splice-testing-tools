@@ -1,31 +1,24 @@
 - name: create user SSH key pair
-  action: shell ssh-keygen -f ~/.ssh/id_rsa -t rsa -N "" -P ""
-    creates=~/.ssh/id_rsa
+  action: shell ssh-keygen -f ${ssh_keys_file} -t rsa -N "" -P ""
+    creates=${ssh_keys_file}
   register: _ssh_keygen_status
   tags:
   - ssh_keygen
+  when: "ssh_keys_file is defined"
 
 - name: restore SELinux for ssh key pair
-  action: shell restorecon -R ~/.ssh
+  shell: |
+    restorecon -R `dirname ${ssh_keys_file}`
   when: _ssh_keygen_status.changed
   tags:
   - ssh_keygen
   - restorecon
 
-- name: fetch root id_rsa.pub
+- name: fetch public part of the key pair
   action: fetch
-    src=/root/.ssh/id_rsa.pub
+    src=${ssh_keys_file}.pub
     dest=${ssh_keys_top_dir}
-  only_if: 'is_set("${ssh_keys_top_dir}") and "${ansible_user_id}" == "root"'
-  tags:
-  - ssh_keygen
-  - fetch_pub_cert
-
-- name: fetch user id_rsa.pub
-  action: fetch
-    src=/home/${ansible_user_id}/.ssh/id_rsa.pub
-    dest=${ssh_keys_top_dir}
-  only_if: 'is_set("${ssh_keys_top_dir}") and "${ansible_user_id}" != "root"'
+  when: "ssh_keys_top_dir is defined and ssh_keys_file is defined"
   tags:
   - ssh_keygen
   - fetch_pub_cert
