@@ -14,7 +14,7 @@ def _run_command(connection, command, timeout=60):
 
 def run_sst(connection, spacewalk_only=False, splice_only=False, timeout=120):
     """ Run spacewalk-splice-tool """
-    command = "spacewalk-splice-checkin"
+    command = "sudo -u splice spacewalk-splice-checkin"
     if spacewalk_only:
         command += " --spacewalk-sync"
     elif splice_only:
