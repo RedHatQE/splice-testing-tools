@@ -6,9 +6,10 @@ class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
     def _setup(self):
         splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
         splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test1")
+        splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest
         self.katello.upload_manifest("2", self.ss.config["manifest"])
-        for step in range(100):
+        for step in range(99):
             splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
     def _test(self):
