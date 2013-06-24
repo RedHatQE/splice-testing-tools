@@ -92,7 +92,7 @@ class Splice_has_FAKE_SPACEWALK(object):
         # back-up the /etc/splice/checkin.conf file
         self._orig_splice_checkin_conf_path = katello.pbm["mktemp"]["--tmpdir=/tmp", "splice_checkin_XXXX.conf"]()
         katello.pbm["cp"]["-f", self._splice_checkin_conf_path, self._orig_splice_checkin_conf_path]()
-
+        
         # set the [spacewalk] section to point to the FAKE_SPACEWALK's SST tool
         import ConfigParser
         katello_conf = ConfigParser.ConfigParser()

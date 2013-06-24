@@ -6,7 +6,7 @@ class SpliceTestFailed(AssertionError):
 
 def _run_command(connection, command, timeout=60):
     """ Run a command and raise exception in case of timeout or none-zero result """
-    status = connection.recv_exit_status(command, timeout)
+    status = connection.recv_exit_status(command, timeout, get_pty=True)
     if status is not None and status != 0:
         raise SpliceTestFailed("Failed to run %s: got %s return value\nSTDOUT: %s\nSTDERR: %s" % (command, status, connection.last_stdout, connection.last_stderr))
     elif status is None:
