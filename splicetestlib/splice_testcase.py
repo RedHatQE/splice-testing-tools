@@ -101,7 +101,6 @@ class Splice_has_FAKE_SPACEWALK(object):
 
         katello_conf.set("spacewalk", "host", fake_spacewalk.hostname)
         katello_conf.set("spacewalk", "ssh_key_path", "/var/lib/splice/.ssh/id_rsa")
-        katello_conf.set("spacewalk", "spacewalk_reports", "/usr/bin/spacewalk-report")
 
         with katello.rpyc.builtins.open(self._splice_checkin_conf_path, "w+") as fd:
             katello_conf.write(fd)
