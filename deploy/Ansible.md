@@ -12,9 +12,10 @@
 
 
 ### Re-use with Playbooks
-- supports tasks grouping into [libraries] (https://github.com/RedHatQE/splice-testing-tools/blob/master/deploy/common/iptables_ports.yml)
-- [customize imports by variables] (https://github.com/RedHatQE/splice-testing-tools/blob/master/deploy/splice-installer.yml)
+- supports tasks grouping into [libraries] (https://github.com/RedHatQE/splice-testing-tools/blob/master/deploy/common/mongodb.yml)
+- libraries may be customized with [variable-import] (https://github.com/RedHatQE/splice-testing-tools/blob/master/deploy/master-splice-installer.yml)
 - generate configuration files from [jinja templates] (https://github.com/RedHatQE/rhui-testing-tools/blob/with_splice/deploy/rhui/templates/answers.j2)
+- even tasks may include some [in-line conde in jinja] (https://github.com/RedHatQE/splice-testing-tools/blob/master/deploy/common/ssh_keygen.yml)
 
 ### Host Groups --- Inventory
 - group hosts based on roles they perform in an [inventory] (http://www.ansibleworks.com/docs/patterns.html#hosts-and-groups)
