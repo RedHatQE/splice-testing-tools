@@ -18,5 +18,10 @@
   # copy (& mount) sam iso
   - include: common/iso.yml
 
+  # copy and configure manifest
+  - include: splice/master/manifest.yml
+    vars:
+      sam_manifest_file: /tmp/manifest.zip
+
   # configure remote ansible
   - include: common/master/ansible.yml

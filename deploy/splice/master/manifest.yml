@@ -1,0 +1,19 @@
+# actions to prepare testing environment with a manifest file
+- name: copy splice manifest
+  action: copy
+    backup=yes
+    src=${sam_manifest_file}
+    dest=${sam_manifest_file}
+  when: "sam_manifest_file is defined"
+  tags:
+  - copy
+  - splice
+  - manifest
+  
+- name: propagate sam manifest configuration to splicetestlib
+  action: shell splice-add-testing-parameter.py --param=manifest --value=${sam_manifest_file}
+  when: "sam_manifest_file is defined"
+  tags:
+  - splicetestlib
+  - configuration
+  - manifest
