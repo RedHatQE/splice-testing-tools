@@ -37,7 +37,18 @@ class SpliceTestcase(object):
         else:
             typeinstance.ss.setup_from_yamlfile(yamlfile="/etc/splice-testing.yaml", output_shell=True)
         if "KATELLO" in typeinstance.ss.Instances:
-            typeinstance.katello = Katello(typeinstance.ss.Instances["KATELLO"][0].hostname)
+            katello_user = 'admin'
+            katello_password = 'admin'
+            if hasattr(typeinstance.ss, "config"):
+                if "katello_user" in typeinstance.ss.config:
+                    katello_user = typeinstance.ss.config["katello_user"]
+                if "katello_password" in typeinstance.ss.config:
+                    katello_password = typeinstance.ss.config["katello_password"]
+            typeinstance.katello = Katello(
+                hostname=typeinstance.ss.Instances["KATELLO"][0].hostname,
+                username=katello_user,
+                password=katello_password
+            )
         else:
             typeinstance.katello = None
 
