@@ -21,3 +21,11 @@
 - group hosts based on roles they perform in an [inventory] (http://www.ansibleworks.com/docs/patterns.html#hosts-and-groups)
 - apply tasks in parallel e.g. for all [web servers] (http://www.ansibleworks.com/docs/patterns.html#selecting-targets)
 - provide [group-specific variables] (http://www.ansibleworks.com/docs/patterns.html#group-variables)
+
+### Modules
+- wide selection of [built-in modules] (http://www.ansibleworks.com/docs/modules.html)
+- one can create [custom modules] (http://www.ansibleworks.com/docs/moduledev.html#tutorial)
+- any language is supported just mind the output in JSON
+
+### Best practices
+- [just check them out] (http://www.ansibleworks.com/docs/bestpractices.html)
