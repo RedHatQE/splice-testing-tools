@@ -44,3 +44,21 @@
 
   tasks:
   - include: common/ssh_authorize_key.yml
+
+  # configure sam user and password
+  - name: propagate sam user to splicetestlib
+    action: shell splice-add-testing-parameter.py --param=katello_user --value=admin
+    tags:
+    - splice
+    - sam
+    - splicetestlib
+    - configuration
+
+  - name: propagate sam password to splicetestlib
+    action: shell splice-add-testing-parameter.py --param=katello_password --value=${item}
+    with_file: /etc/katello_password
+    tags:
+    - splice
+    - sam
+    - splicetestlib
+    - connection
