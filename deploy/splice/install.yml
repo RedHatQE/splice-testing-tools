@@ -56,7 +56,7 @@
   - service
 
 - name: execute configure script
-  action: shell katello-configure --reset-data="YES" --deployment headpin --user-pass ${item}
+  action: shell katello-configure --reset-data="YES" --deployment sam --user-pass ${item}
   with_password:
   - /etc/katello_password
   tags:
