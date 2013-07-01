@@ -42,8 +42,8 @@ def generate(dirname):
                                                    'cloned_channels': [],
                                                    'users': [users],
                                                    'splice_export': splice_export})
-        for i in range(300):
-            splice_export[i]['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
+        for nhost in range(300):
+            splice_export[nhost]['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
 
 if len(sys.argv) > 1:
     generate(sys.argv[1])
