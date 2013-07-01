@@ -26,6 +26,8 @@
   hosts:
   - SAM
   user: root
+  sudo: yes
+  sudo_user: splice
 
   vars_files:
   - splice/vars/sst_ssh_keys.yml
