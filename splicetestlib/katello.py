@@ -45,8 +45,12 @@ class Katello(object):
         return self._request_return(requests.get("https://%s%s/api/systems/%s/pools" % (self.hostname, self.path, system_id), auth=(self.username, self.password), verify=self.verify))
 
     def show_system(self, system_id):
-        """ List systems """
+        """ Show system """
         return self._request_return(requests.get('https://%s%s/api/systems/%s' % (self.hostname, self.path, system_id), auth=(self.username, self.password), verify=self.verify))
+
+    def show_user(self, user_id):
+        """ Show user """
+        return self._request_return(requests.get('https://%s%s/api/users/%s' % (self.hostname, self.path, user_id), auth=(self.username, self.password), verify=self.verify))
 
     def delete_subscription(self, system_id, subscription_id):
         """ Detach subscription """
