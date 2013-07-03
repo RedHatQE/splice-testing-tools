@@ -73,15 +73,11 @@ class SpliceTestcase(object):
         if hasattr(self, "_init"):
             self._init()
 
-    def test_01_setup(self):
+    def test_00_setup(self):
         if hasattr(self, "_setup"):
             self._setup()
 
-    def test_02_test(self):
-        if hasattr(self, "_test"):
-            self._test()
-
-    def test_03_cleanup(self):
+    def test_99_cleanup(self):
         if hasattr(self, "_cleanup"):
             self.ss.reconnect_all()
             self._cleanup()
