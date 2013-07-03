@@ -4,6 +4,7 @@ import re
 import tempfile
 import zipfile
 import os
+import json
 
 
 class Katello(object):
@@ -119,7 +120,7 @@ class Katello(object):
             elif archfile.filename.endswith("/metadata"):
                 metadata = zf.open(archfile.filename).read()
             elif archfile.filename.endswith("expanded_export.json"):
-                expjson = zf.open(archfile.filename).read()
+                expjson = json.loads(zf.open(archfile.filename).read())
         zf.close()
         os.unlink(tf.name)
         return expcsv, metadata, expjson
