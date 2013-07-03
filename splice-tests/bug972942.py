@@ -8,7 +8,7 @@ class test_splice_bug972942(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
         splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test_bug972942")
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
-    def _test(self):
+    def test_01_orgname(self):
         org_name = ""
         for org in self.katello.list_organizations():
             if org["label"] == 'satellite-2':

@@ -13,7 +13,7 @@ class test_splice_threaded_sst(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice
         for step in range(84):
             splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
-    def _test(self):
+    def test_01_test(self):
         pass
 
     def _cleanup(self):

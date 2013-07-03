@@ -8,7 +8,7 @@ class test_sat_nosockinfo(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
         splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test_sat_nosockinfo")
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
-    def _test(self):
+    def test_01_sockinfo(self):
         uuid = self.katello.list_systems('satellite-1')[0]['uuid']
         sockets = self.katello.show_system(uuid)['facts']['cpu.cpu_socket(s)']
         nose.tools.assert_equals(sockets, "1")
