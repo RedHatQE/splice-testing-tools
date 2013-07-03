@@ -127,9 +127,13 @@ class Katello(object):
         os.unlink(tf.name)
         return expcsv, metadata, expjson
 
-    def create_report(self, name, organizations=['1'], time='choose_daterange', hours='', start_date='', end_date='', status=['Current', 'Invalid', 'Insufficient'], satellite_name='', description='', inactive=False, set_org=1):
+    def create_report(self, name, organizations=None, time='choose_daterange', hours='', start_date='', end_date='', status=['Current', 'Invalid', 'Insufficient'], satellite_name='', description='', inactive=False, set_org=1):
         """ Create report """
-        assert time in ['choose_hour', 'choose_daterange']
+        assert (time == 'choose_hour' and hours != '' and start_date == '' and end_date == '') or \
+            (time == 'choose_daterange' and start_date != '' and end_date != '' and hours == '')
+        if organizations is None:
+            # no orgs specified, adding all of them
+            organizations = sorted([str(org['id']) for org in self.list_organizations()])
         session, csrf = self._get_csrf()
         self._select_org(session, csrf, set_org)
         report_form = {'authenticity_token': csrf,
