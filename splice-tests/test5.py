@@ -4,7 +4,6 @@ import nose
 
 class test_splice_5(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
     def _setup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
         splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test5")
         # creating orgs
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
@@ -17,6 +16,7 @@ class test_splice_5(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         pass
 
     def _cleanup(self):
+        #splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
         pass
 
 if __name__ == "__main__":

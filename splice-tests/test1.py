@@ -5,7 +5,6 @@ import nose
 
 class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
     def _setup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
         splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test1")
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest
@@ -39,7 +38,7 @@ class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         self.katello.delete_report(id_rep2)
 
     def _cleanup(self):
-        pass
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])
