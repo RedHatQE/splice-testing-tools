@@ -125,3 +125,18 @@ class Splice_has_Manifest(object):
     def check(self, ss):
         if (not "manifest" in ss.config):
             raise nose.exc.SkipTest("can't test without manifest!")
+
+class Splice_has_WebUI(object):
+    @classmethod
+    def check(self, ss):
+        if not 'selenium_display' in ss.config:
+            raise nose.exc.SkipTest("can't test without selenium_display")
+
+    @classmethod
+    def prepare(self, ss):
+        self._old_os_environ_display = os.environ['DISPLAY']
+        os.environ['DISPLAY'] = ss.config['selenium_display']
+
+    @classmethod
+    def cleanup(self, ss):
+        os.environ['DISPLAY'] = self._old_os_environ_display
