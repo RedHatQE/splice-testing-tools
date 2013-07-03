@@ -1,5 +1,6 @@
 import splicetestlib
 from splicetestlib.splice_testcase import *
+import datetime
 import nose
 
 class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
@@ -11,9 +12,31 @@ class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         self.katello.upload_manifest("2", self.ss.config["manifest"])
         for step in range(99):
             splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+        SpliceTestcase.last_checkin = self.katello.find_last_checkin()
 
-    def _test(self):
-        pass
+    def test_01_activemonth(self):
+        date1 = (SpliceTestcase.last_checkin - datetime.timedelta(30)).strftime("%m/%d/%Y")
+        date2 = (SpliceTestcase.last_checkin - datetime.timedelta(1)).strftime("%m/%d/%Y")
+        # Active report 1 month
+        id_rep1 = self.katello.create_report("test1_rep1", start_date=date1, end_date=date2)
+        csv, metadata, expjson = self.katello.run_report(id_rep1)
+        res_rep1 = splicetestlib.util.parse_report_json(expjson)
+        nose.tools.assert_equal(res_rep1["number_of_current"], 1)
+        nose.tools.assert_equal(res_rep1["number_of_invalid"], 1)
+        nose.tools.assert_equal(res_rep1["number_of_insufficient"], 0)
+        self.katello.delete_report(id_rep1)
+
+    def test_02_activemonth(self):
+        date1 = (SpliceTestcase.last_checkin - datetime.timedelta(30)).strftime("%m/%d/%Y")
+        date2 = (SpliceTestcase.last_checkin - datetime.timedelta(1)).strftime("%m/%d/%Y")
+        # Inctive report 1 month
+        id_rep2 = self.katello.create_report("test1_rep2", start_date=date1, end_date=date2, inactive=True)
+        csv, metadata, expjson = self.katello.run_report(id_rep2)
+        res_rep2 = splicetestlib.util.parse_report_json(expjson)
+        nose.tools.assert_equal(res_rep2["number_of_current"], 0)
+        nose.tools.assert_equal(res_rep2["number_of_invalid"], 0)
+        nose.tools.assert_equal(res_rep2["number_of_insufficient"], 0)
+        self.katello.delete_report(id_rep2)
 
     def _cleanup(self):
         pass
