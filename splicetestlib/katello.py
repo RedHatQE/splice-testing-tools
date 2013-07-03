@@ -5,6 +5,8 @@ import tempfile
 import zipfile
 import os
 import json
+import iso8601
+import datetime
 
 
 class Katello(object):
@@ -160,3 +162,14 @@ class Katello(object):
         req_delete = session.delete('https://%s%s/splice_reports/filters/%s' % (self.hostname, self.path, report_id), headers=headers, verify=self.verify)
         assert req_delete.status_code == 200
         return req_delete.content
+
+    def find_last_checkin(self):
+        """ Find first and last checkins among all systems"""
+        initdate = iso8601.parse_date("1900-01-01T00:00:00Z")
+        for org in self.list_organizations():
+            for system in self.list_systems(org['label']):
+                last_checkin_s = self.show_system(system['uuid'])['checkin_time']
+                last_checkin = iso8601.parse_date(last_checkin_s)
+                if last_checkin > initdate:
+                    initdate = last_checkin
+        return initdate
