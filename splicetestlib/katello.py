@@ -1,6 +1,9 @@
 import requests
 import time
 import re
+import tempfile
+import zipfile
+import os
 
 
 class Katello(object):
@@ -105,7 +108,21 @@ class Katello(object):
         self._select_org(session, csrf, set_org)
         req_report = session.get('https://%s%s/splice_reports/filters/%s/reports/items.zip?encrypt=0&skip_expand=0' % (self.hostname, self.path, report_id), verify=self.verify)
         assert req_report.status_code == 200
-        return req_report.content
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        tf.file.write(req_report.content)
+        tf.close()
+        zf = zipfile.ZipFile(tf.name)
+        expcsv, metadata, expjson = '','',''
+        for archfile in zf.filelist:
+            if archfile.filename.endswith("/export.csv"):
+                expcsv = zf.open(archfile.filename).read()
+            elif archfile.filename.endswith("/metadata"):
+                metadata = zf.open(archfile.filename).read()
+            elif archfile.filename.endswith("expanded_export.json"):
+                expjson = zf.open(archfile.filename).read()
+        zf.close()
+        os.unlink(tf.name)
+        return expcsv, metadata, expjson
 
     def create_report(self, name, organizations=['1'], time='choose_daterange', hours='', start_date='', end_date='', status=['Current', 'Invalid', 'Insufficient'], satellite_name='', description='', inactive=False, set_org=1):
         """ Create report """
