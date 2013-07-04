@@ -1,5 +1,5 @@
 # Page Objects
-from pageobjects.seleniumwrapper import SeleniumWrapper
+from splicetestlib.pageobjects.seleniumwrapper import SeleniumWrapper
 
 SE = SeleniumWrapper()
 

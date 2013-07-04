@@ -1,9 +1,9 @@
-import pageobjects
-from pageobjects import locators
-from pageobjects import SE
-from pageobjects.basepageelement import InputPageElement
-from pageobjects.basepageelement import ButtonPageElement
-from pageobjects.basepageobject import BasePageObject
+import splicetestlib.pageobjects
+from splicetestlib.pageobjects import locators
+from splicetestlib.pageobjects import SE
+from splicetestlib.pageobjects.basepageelement import InputPageElement
+from splicetestlib.pageobjects.basepageelement import ButtonPageElement
+from splicetestlib.pageobjects.basepageobject import BasePageObject
 from selenium.common.exceptions import NoSuchElementException
 
 class UsernameElement(InputPageElement):

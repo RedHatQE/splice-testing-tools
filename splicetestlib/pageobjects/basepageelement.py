@@ -1,6 +1,6 @@
 # Base Page Element
-import pageobjects
-from pageobjects import SE
+import splicetestlib.pageobjects
+from splicetestlib.pageobjects import SE
 
 class BasePageElement(object):
     locator = staticmethod(lambda : None)
