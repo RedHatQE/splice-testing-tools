@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import glob
 import subprocess
 import os
@@ -34,13 +34,11 @@ setup(name='splicetestlib',
     author_email='vitty@redhat.com',
     url='https://github.com/RedHatQE/splice-testing-tools',
     license="GPLv3+",
-    packages=[
-        'splicetestlib'
-        ],
+    packages=find_packages(exclude=['*.pyc', '*.swp']),
     data_files=datafiles + \
         walk_topdirs('share/splice-testing-tools', ['splice-tests']) + \
         walk_topdirs('/usr', ['lib/systemd']) + \
-        walk_topdirs('/', ['etc']), 
+        walk_topdirs('/', ['etc']),
     classifiers=[
             'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
             'Programming Language :: Python',
