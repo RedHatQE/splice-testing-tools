@@ -134,9 +134,14 @@ class Splice_has_WebUI(object):
 
     @classmethod
     def prepare(self, ss):
-        self._old_os_environ_display = os.environ['DISPLAY']
+        self._old_os_environ_display = None
+        if 'DISPLAY' in os.environ:
+            self._old_os_environ_display = os.environ['DISPLAY']
         os.environ['DISPLAY'] = ss.config['selenium_display']
 
     @classmethod
     def cleanup(self, ss):
-        os.environ['DISPLAY'] = self._old_os_environ_display
+        if self._old_os_environ_display is not None:
+            os.environ['DISPLAY'] = self._old_os_environ_display
+        else:
+            del(os.environ['DISPLAY'])
