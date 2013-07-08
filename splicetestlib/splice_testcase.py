@@ -2,7 +2,9 @@ import os
 import patchwork
 import logging
 import nose
+import datetime
 from splicetestlib.katello import Katello
+from splicetestlib.util import *
 
 def traverse_mro(type_instance):
     # traverse mro of a type_instance returning a list of type_instances
@@ -81,6 +83,52 @@ class SpliceTestcase(object):
         if hasattr(self, "_cleanup"):
             self.ss.reconnect_all()
             self._cleanup()
+
+    @classmethod
+    def splice_check_report(typeinstance, days_start=None, days_end=None, past_hours=None, inactive=False, current=0, invalid=0, insufficient=0):
+        """
+        Create splice report and check it
+
+        @param days_start: Number of past days for report start_date (e.g. 7 means 7 days ago)
+        @type days_start: int
+
+        @param days_end: Number of past days for report end_date (e.g. 1 means 1 day ago)
+        @type days_end: int
+
+        @param past_hours: Create report for past N hours
+        @type past_hours: int
+
+        @param inactive: create Inactive report
+        @type inactive: bool
+
+        @param current: expected number of current subscriptions
+        @type current: int
+
+        @param invalid: expected number of invalid subscriptions
+        @type invalid: int
+
+        @param insufficient: expected number of insufficient subscriptions
+        @type insufficient: int
+        """
+        if not hasattr(typeinstance, "last_checkin") or typeinstance.last_checkin is None:
+            typeinstance.last_checkin = typeinstance.katello.find_last_checkin()
+
+        if days_start is not None and days_end is not None:
+            date1 = (typeinstance.last_checkin - datetime.timedelta(days_start)).strftime('%m/%d/%Y')
+            date2 = (typeinstance.last_checkin - datetime.timedelta(days_end)).strftime('%m/%d/%Y')
+            id_rep = typeinstance.katello.create_report('testing_report_%s_%s_%s' % (days_start, days_end, inactive), start_date=date1, end_date=date2, inactive=inactive)
+        elif past_hours is not None:
+            id_rep = typeinstance.katello.create_report('testing_report_%s_hours_%s' % (past_hours, inactive), time='choose_hour', hours=past_hours, inactive=inactive)
+        else:
+            # Wrong usage
+            assert False
+            return
+        csv, metadata, expjson = typeinstance.katello.run_report(id_rep)
+        res_rep = parse_report_json(expjson)
+        nose.tools.assert_equal(res_rep['number_of_current'], current)
+        nose.tools.assert_equal(res_rep['number_of_invalid'], invalid)
+        nose.tools.assert_equal(res_rep['number_of_insufficient'], insufficient)
+        typeinstance.katello.delete_report(id_rep)
 
 
 class Splice_has_FAKE_SPACEWALK(object):

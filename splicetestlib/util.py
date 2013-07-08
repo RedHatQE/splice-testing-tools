@@ -21,7 +21,7 @@ def run_sst(connection, spacewalk_only=False, splice_only=False, timeout=120):
         command += " --splice-sync"
     _run_command(connection, command, timeout)
 
-def fake_spacewalk_test(connection, test_name):
+def fake_spacewalk_env(connection, test_name):
     """ Select test with fake spacewalk """
     _run_command(connection, "spacewalk-report-set %s" % test_name)
 

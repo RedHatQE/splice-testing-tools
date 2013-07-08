@@ -4,7 +4,7 @@ import nose
 
 class test_splice_threaded_sst(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
     def _setup(self):
-        splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test_threaded_sst")
+        splicetestlib.fake_spacewalk_env(self.ss.Instances["FAKE_SPACEWALK"][0], "test_threaded_sst")
         # creating orgs
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest

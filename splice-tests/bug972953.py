@@ -5,7 +5,7 @@ import nose
 class test_splice_bug972953(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
     ''' Depens on test_bug972942 data '''
     def _setup(self):
-        splicetestlib.fake_spacewalk_test(self.ss.Instances["FAKE_SPACEWALK"][0], "test_bug972942")
+        splicetestlib.fake_spacewalk_env(self.ss.Instances["FAKE_SPACEWALK"][0], "test_bug972942")
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
     def test_01_rolename(self):
