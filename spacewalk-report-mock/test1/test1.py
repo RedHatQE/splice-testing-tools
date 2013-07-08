@@ -30,19 +30,19 @@ def generate(dirname):
                                      'users': [users],
                                      'splice_export': []})
     for i in range(1, 19):
+        splice_export['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
         print_all("%s/step%i" % (dirname, i + 1), {'host_guests': [],
                                                'cloned_channels': [],
                                                'users': [users],
                                                'splice_export': [splice_export]})
-        splice_export['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
     # second system appears
     for i in range(19, 37):
+        splice_export['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
+        splice_export2['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
         print_all("%s/step%i" % (dirname, i + 1), {'host_guests': [],
                                                'cloned_channels': [],
                                                'users': [users],
                                                'splice_export': [splice_export, splice_export2]})
-        splice_export['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
-        splice_export2['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
 
 if len(sys.argv) > 1:
     generate(sys.argv[1])
