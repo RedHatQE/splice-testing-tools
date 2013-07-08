@@ -6,24 +6,34 @@ if [ -z "$1" ]; then
 fi
 
 if [ "$1" = "-n" ]; then
-    tname=`readlink /usr/share/splice-testing-tools/spacewalk-report-mock/current | sed 's,/.*$,,'`
-    step=step$((`readlink /usr/share/splice-testing-tools/spacewalk-report-mock/current | sed 's,.*/step,,'`+1))
+    if [ ! -L /var/lib/spacewalk-report-mock/current ]; then
+       echo "no test selected"
+       exit 1
+    fi
+    tname=`readlink /var/lib/spacewalk-report-mock/current | sed 's,/.*$,,'`
+    step=step$((`readlink /var/lib/spacewalk-report-mock/current | sed 's,.*/step,,'`+1))
 else
     tname=$1
     step=step1
+    if [ -d /var/lib/spacewalk-report-mock/$tname ]; then
+        rm -rf /var/lib/spacewalk-report-mock/$tname/*
+    else
+        mkdir /var/lib/spacewalk-report-mock/$tname
+    fi
+    python /usr/share/splice-testing-tools/spacewalk-report-mock/$tname/$tname.py /var/lib/spacewalk-report-mock/$tname
 fi
 
-if [ ! -d /usr/share/splice-testing-tools/spacewalk-report-mock/$tname ]; then
+if [ ! -d /var/lib/spacewalk-report-mock/$tname ]; then
    echo "no such test: $tname"
    exit 1
 fi
 
-if [ ! -d /usr/share/splice-testing-tools/spacewalk-report-mock/$tname/$step ]; then
+if [ ! -d /var/lib/spacewalk-report-mock/$tname/$step ]; then
    echo "no such step: $step"
    exit 0
 fi
 
-pushd /usr/share/splice-testing-tools/spacewalk-report-mock > /dev/null 2>&1
+pushd /var/lib/spacewalk-report-mock > /dev/null 2>&1
 rm -f current
 ln -s $tname/$step current
 popd  > /dev/null 2>&1

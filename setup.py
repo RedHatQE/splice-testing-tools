@@ -19,13 +19,11 @@ def walk_topdirs(dest, topdirs):
             )
     return datafiles
 
-datafiles = []
-for test in glob.glob('spacewalk-report-mock/test*/*.py'):
-    subprocess.check_call(['python', test, os.path.dirname(test)])
+datafiles = [('share/splice-testing-tools/spacewalk-report-mock', ['spacewalk-report-mock/common.py'])]
 
 for topdir in glob.glob('spacewalk-report-mock/test*'):
     for dirname, dirnames, filenames in os.walk(topdir):
-        datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, [fn for fn in filenames if fn.endswith(".csv")])))
+        datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, [fn for fn in filenames if fn.endswith(".py") or fn.endswith(".yaml") or fn.endswith(".md")])))
 
 setup(name='splicetestlib',
     version='0.2',

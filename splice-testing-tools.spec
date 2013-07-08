@@ -39,6 +39,7 @@ The Xvfb and selenium services to use when testing splice
 
 %install
 %{__python} setup.py install -O1 --root $RPM_BUILD_ROOT
+%{__mkdir_p} $RPM_BUILD_ROOT%{_sharedstatedir}/spacewalk-report-mock
 
 %if 0%{?with_selenium:1}
 %{__mkdir_p} $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
@@ -89,6 +90,9 @@ fi
 %attr(0755, root, root) %{_bindir}/spacewalk-report
 %attr(0755, root, root) %{_bindir}/spacewalk-report-set
 %{_datadir}/%name/spacewalk-report-mock
+%exclude %{_datadir}/%name/spacewalk-report-mock/*.py?
+%exclude %{_datadir}/%name/spacewalk-report-mock/*/*.py?
+%{_sharedstatedir}/spacewalk-report-mock
 
 %if 0%{?with_selenium:1}
 %files -n selenium-splice-server
