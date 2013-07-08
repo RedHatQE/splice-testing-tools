@@ -33,7 +33,7 @@ class test_splice_2(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         """
         self.splice_check_report(days_start=7, days_end=1, invalid=1)
 
-    def test_04_inactive_next_week(self):
+    def test_04_inactive_second_week(self):
         """
         Inactive report second week
         Expecting 0 subscriptions
