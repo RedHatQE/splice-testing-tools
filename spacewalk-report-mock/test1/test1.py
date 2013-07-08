@@ -23,15 +23,21 @@ fd_users.close()
 
 
 def generate(dirname):
-    initial_date = datetime.datetime.now() - datetime.timedelta(0, 100 * 4 * 3600)
-    for i in range(1, 51):
-        print_all("%s/step%i" % (dirname, i), {'host_guests': [],
+    # 6 days ago
+    initial_date = datetime.datetime.now() - datetime.timedelta(0, 36 * 4 * 3600)
+    print_all("%s/step1" % dirname, {'host_guests': [],
+                                     'cloned_channels': [],
+                                     'users': [users],
+                                     'splice_export': []})
+    for i in range(1, 19):
+        print_all("%s/step%i" % (dirname, i + 1), {'host_guests': [],
                                                'cloned_channels': [],
                                                'users': [users],
                                                'splice_export': [splice_export]})
         splice_export['last_checkin_time'] = (initial_date + datetime.timedelta(0, i * 4 * 3600)).strftime("%Y-%m-%d %H:%M:%S")
-    for i in range(51, 101):
-        print_all("%s/step%i" % (dirname, i), {'host_guests': [],
+    # second system appears
+    for i in range(19, 37):
+        print_all("%s/step%i" % (dirname, i + 1), {'host_guests': [],
                                                'cloned_channels': [],
                                                'users': [users],
                                                'splice_export': [splice_export, splice_export2]})
