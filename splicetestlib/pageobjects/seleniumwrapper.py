@@ -2,11 +2,14 @@ from selenium.webdriver import Firefox
 from selenium.webdriver import FirefoxProfile
 from selenium.common.exceptions import NoSuchElementException
 import logging, os
+from datetime import datetime
 
 class SeleniumWrapper(object):
     # a singleton proxy to a default driver instance
     _instance = None
-    _direct_attrs = ("_driver",)
+    _direct_attrs = ("_driver", "screenshots_directory", "screenshots_enabled", "_take_screenshot")
+    screenshots_enabled = False
+    screenshots_directory = os.getcwd() + "/" + 'Screenshots'
 
     def __new__(cls, *args, **kvargs):
         if not cls._instance:
@@ -33,6 +36,7 @@ class SeleniumWrapper(object):
         # proxy calls to the driver
         if attrname in self.__class__._direct_attrs:
             return self.__dict__[attrname]
+        self._take_screenshot()
         return getattr(self._driver, attrname)
 
     def __setattr__(self, attrname, value):
@@ -61,6 +65,15 @@ class SeleniumWrapper(object):
                 return False
         else:
             return locator in self._driver
+
+    def _take_screenshot(self):
+        if not self.screenshots_enabled:
+            return
+        path = self.screenshots_directory + "/" + datetime.now().isoformat() + ".png"
+        if not self._driver.get_screenshot_as_file(path):
+            # try mkdir
+            os.makedirs(self.screenshots_directory)
+            assert self._driver.get_screenshot_as_file(path), "Taking screenshot"
 
     def reset(self, driver=None, url=None):
         # reset the driver
