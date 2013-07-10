@@ -1,6 +1,7 @@
 import splicetestlib
 from splicetestlib.splice_testcase import *
 import nose
+import datetime
 
 class test_splice_threaded_sst(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
     def _setup(self):
@@ -9,15 +10,15 @@ class test_splice_threaded_sst(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest
         self.katello.upload_manifest("2", self.ss.config["manifest"])
-        for step in range(84):
-            splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
     def test_01_test(self):
-        pass
+        time_start = datetime.datetime.now()
+        for step in range(10):
+            splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+        time_stop = datetime.datetime.now()
 
     def _cleanup(self):
-        #splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
-        pass
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])
