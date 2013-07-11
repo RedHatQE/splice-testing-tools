@@ -2,6 +2,6 @@
     CPUs 1 Sockets; eth0 10.64.147.152/255.255.254.0 12:31:43:07:94:69; lo 127.0.0.1/255.0.0.0
     00:00:00:00:00:00', hostname: ip-10-64-147-152.eu-west-1.compute.internal, ip_address: 10.64.147.152,
   ipv6_address: '::1', last_checkin_time: '2013-05-15 01:00:01', memory: '1655', name: ip-10-64-147-152.eu-west-1.compute.internal,
-  org_id: '1', organization: Red Hat (Internal Use Only), registered_by: admin, registration_time: '2013-05-15
+  org_id: '1', organization: Testing Org, registered_by: admin, registration_time: '2013-05-15
     00:00:00', server_id: '1000020000', sockets: '1', software_channel: rhel-x86_64-hpc-node-6,
   system_group: '', virtual_host: ''}
