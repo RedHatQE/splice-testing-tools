@@ -14,7 +14,7 @@ class test_splice_threaded_sst(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice
     def test_01_test(self):
         time_start = datetime.datetime.now()
         for step in range(10):
-            splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+            splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0], timeout=1200)
         time_stop = datetime.datetime.now()
 
     def _cleanup(self):
