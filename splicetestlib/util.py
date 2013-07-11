@@ -29,17 +29,17 @@ def fake_spacewalk_step(connection):
     """ Step to next data """
     _run_command(connection, "spacewalk-report-set -n")
 
-def sst_step(connection, fake_spacewalk_connection=None):
+def sst_step(connection, fake_spacewalk_connection=None, timeout=120):
     """ Run sst and step to next data (iteration) """
-    run_sst(connection)
+    run_sst(connection, timeout=timeout)
     if fake_spacewalk_connection is None:
         fake_spacewalk_step(connection)
     else:
         fake_spacewalk_step(fake_spacewalk_connection)
 
-def cleanup_katello(connection, keep_splice=False):
+def cleanup_katello(connection, keep_splice=False, password='admin'):
     """ Clean up katello and splice databases """
-    _run_command(connection, "katello-configure --reset-data=YES", 300)
+    _run_command(connection, "katello-configure --user-pass='%s' --reset-data=YES" % password, 300)
     if not keep_splice:
         _run_command(connection, "service splice_all stop ||:")
         _run_command(connection, "mongo checkin_service --eval 'db.dropDatabase()'")
