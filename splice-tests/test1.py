@@ -55,7 +55,7 @@ class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         self.splice_check_report(past_hours=24, inactive=True)
 
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0])
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello.password)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])
