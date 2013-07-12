@@ -28,7 +28,7 @@ gpgcheck=0
 EOF
 
 # rhsm
-yum install https://s3.amazonaws.com/rhuiqerpm/subscription-manager-1.8.11-1.el6.x86_64.rpm https://s3.amazonaws.com/rhuiqerpm/python-rhsm-1.8.12-1.el6.x86_64.rpm
+yum -y install https://s3.amazonaws.com/rhuiqerpm/subscription-manager-1.8.11-1.el6.x86_64.rpm https://s3.amazonaws.com/rhuiqerpm/python-rhsm-1.8.12-1.el6.x86_64.rpm https://s3.amazonaws.com/rhuiqerpm/subscription-manager-migration-data-2.0.1-1.el6sam.noarch.rpm 
 
 # splice
 yum -y install splice spacewalk-splice-tool ruby193-rubygem-splice_reports
