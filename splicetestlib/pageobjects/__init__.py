@@ -1,7 +1,5 @@
 # Page Objects
-from splicetestlib.pageobjects.seleniumwrapper import SeleniumWrapper
-
-SE = SeleniumWrapper()
+from selenium_wrapper import SE
 
 locators = {
     "login.username": lambda : SE.find_element_by_name("username"),

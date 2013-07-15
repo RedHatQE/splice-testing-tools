@@ -45,10 +45,5 @@ setup(name='splicetestlib',
             'Intended Audience :: Developers',
             'Development Status :: 4 - Beta'
     ],
-    entry_points = {
-        'nose.plugins.0.10': [
-            'webui_screenshot = splicetestlib.pageobjects.nose_plugins.webui_screenshot:Webui_screenshot'
-            ]
-        },
     scripts=glob.glob('scripts/*')
 )

@@ -10,7 +10,7 @@ Source0:	%{name}-%{version}.tar.gz
 BuildArch:  noarch
 
 BuildRequires:	python-devel
-Requires:	python-nose PyYAML
+Requires:	python-nose PyYAML python-selenium-wrapper
 
 %description
 %{summary}
@@ -83,7 +83,6 @@ fi
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
 %{python_sitelib}/splicetestlib/pageobjects/*.py*
-%{python_sitelib}/splicetestlib/pageobjects/nose_plugins/*.py*
 %attr(0644, root, root) %{_datadir}/%name/splice-tests/*.py
 %exclude %{_datadir}/%name/splice-tests/*.py?
 

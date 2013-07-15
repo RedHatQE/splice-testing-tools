@@ -1,6 +1,5 @@
-import splicetestlib.pageobjects
+from selenium_wrapper import SE
 from splicetestlib.pageobjects import locators
-from splicetestlib.pageobjects import SE
 from splicetestlib.pageobjects.basepageelement import InputPageElement
 from splicetestlib.pageobjects.basepageelement import ButtonPageElement
 from splicetestlib.pageobjects.basepageobject import BasePageObject
