@@ -9,6 +9,7 @@
   with_items:
   - {name: python-patchwork, url: "https://github.com/RedHatQE/python-patchwork.git", version: HEAD}
   - {name: python-moncov, url: "https://github.com/RedHatQE/python-moncov.git", version: HEAD}
+  - {name: python-selenium-wrapper, url: "https://github.com/RedHatQE/python-selenium-wrapper.git", version: HEAD}
   - {name: splice-testing-tools, url: "https://github.com/RedHatQE/splice-testing-tools.git", version: HEAD}
 
 - name: install splice tools from repos
@@ -17,6 +18,7 @@
   with_items:
   - python-patchwork
   - python-moncov
+  - python-selenium-wrapper
   - splice-testing-tools
   tags:
   - splice_master_repos
