@@ -14,6 +14,9 @@ class PasswordElement(InputPageElement):
 class SubmitButton(ButtonPageElement):
     locator = staticmethod(locators["login.submit"])
 
+class LogoutLink(LinkPageElement):
+    locator = staticmethod(locators["login.logout"])
+
 class LoginPageObject(BasePageObject):
     username = UsernameElement()
     password = PasswordElement()
@@ -32,3 +35,17 @@ class LoginPageObject(BasePageObject):
         self.submit_button.click()
         SE.refresh()
         self.assertIn(locators['login.logout'], SE)
+
+class LogoutPageObject(BasePageObject):
+    logout_link = LogoutLink()
+    def __init__(self):
+        try:
+            self.assertEqual("Signo", SE.title)
+        except AssertionError as e:
+            SE.get(SE.current_url + u"/signo")
+            self.assertEqual("Signo", SE.title)
+
+    def submit(self):
+        self.logout_link.click()
+        self.assertIn(locators["login.logout_notice"], SE)
+
