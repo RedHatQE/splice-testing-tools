@@ -28,9 +28,11 @@ class test_splice_webui_login(unittest.TestCase, SpliceTestcase, Splice_has_WebU
         lpo.submit()
 
     def test_03_webui_login_ctx(self):
+        SE.get(self.sam_url)
+        SE.refresh()
         with login_ctx(sam_url=self.sam_url, username=self.sam_user, password=self.sam_password):
             # just check that navigating somewhere works
-            SE.get(SE.current_url + "/sam/dashboard")
+            SE.get(SE.current_url + "/sam")
 
     def _cleanup(self):
         pass
