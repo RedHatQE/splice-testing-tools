@@ -2,6 +2,7 @@ from selenium_wrapper import SE
 from splicetestlib.pageobjects import locators
 from splicetestlib.pageobjects.basepageelement import InputPageElement
 from splicetestlib.pageobjects.basepageelement import ButtonPageElement
+from splicetestlib.pageobjects.basepageelement import LinkPageElement
 from splicetestlib.pageobjects.basepageobject import BasePageObject
 from selenium.common.exceptions import NoSuchElementException
 
@@ -13,6 +14,9 @@ class PasswordElement(InputPageElement):
 
 class SubmitButton(ButtonPageElement):
     locator = staticmethod(locators["login.submit"])
+
+class LogoutLink(LinkPageElement):
+    locator = staticmethod(locators["login.logout"])
 
 class LoginPageObject(BasePageObject):
     username = UsernameElement()
@@ -32,3 +36,17 @@ class LoginPageObject(BasePageObject):
         self.submit_button.click()
         SE.refresh()
         self.assertIn(locators['login.logout'], SE)
+
+class LogoutPageObject(BasePageObject):
+    logout_link = LogoutLink()
+    def __init__(self):
+        try:
+            self.assertEqual("Signo", SE.title)
+        except AssertionError as e:
+            SE.get(SE.current_url + u"/signo")
+            self.assertEqual("Signo", SE.title)
+
+    def submit(self):
+        self.logout_link.click()
+        self.assertIn(locators["login.logout_notice"], SE)
+

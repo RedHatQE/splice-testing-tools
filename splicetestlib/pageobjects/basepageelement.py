@@ -16,3 +16,7 @@ class InputPageElement(BasePageElement):
 class ButtonPageElement(BasePageElement):
     def click(self):
         self.__get__(obj).click()
+
+class LinkPageElement(BasePageElement):
+    def click(self):
+        self.__get__(obj).click()

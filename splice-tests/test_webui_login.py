@@ -2,6 +2,7 @@ import splicetestlib
 from splicetestlib.splice_testcase import *
 from splicetestlib.pageobjects import SE
 from splicetestlib.pageobjects.login import LoginPageObject
+from splicetestlib.pageobjects.login import LogoutPageObject
 import nose, os, logging, unittest
 
 class test_splice_webui_login(unittest.TestCase, SpliceTestcase, Splice_has_WebUI):
@@ -13,6 +14,10 @@ class test_splice_webui_login(unittest.TestCase, SpliceTestcase, Splice_has_WebU
         lpo = LoginPageObject()
         lpo.username = self.ss.config["katello_user"]
         lpo.password = self.ss.config["katello_password"]
+        lpo.submit()
+
+    def test_02_webui_logout(self):
+        lpo = LogoutPageObject()
         lpo.submit()
 
     def _cleanup(self):
