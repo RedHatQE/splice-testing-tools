@@ -2,6 +2,7 @@ from selenium_wrapper import SE
 from splicetestlib.pageobjects import locators
 from splicetestlib.pageobjects.basepageelement import InputPageElement
 from splicetestlib.pageobjects.basepageelement import ButtonPageElement
+from splicetestlib.pageobjects.basepageelement import LinkPageElement
 from splicetestlib.pageobjects.basepageobject import BasePageObject
 from selenium.common.exceptions import NoSuchElementException
 
