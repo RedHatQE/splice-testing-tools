@@ -1,0 +1,6 @@
+Config: {manifest: /home/user/workspace/manifest_20130613.zip}
+Instances:
+- {private_hostname: ec2-111-222-111-222.eu-west-1.compute.amazonaws.com, public_hostname: ec2-176-34-160-14.eu-west-1.compute.amazonaws.com,
+  role: KATELLO, username: root, key_filename: /home/user/.pem/eu-west-1-iam.pem}
+- {private_hostname: ec2-111-222-111-222.eu-west-1.compute.amazonaws.com, public_hostname: ec2-176-34-160-14.eu-west-1.compute.amazonaws.com,
+  role: FAKE_SPACEWALK, username: root, key_filename: /home/user/.pem/eu-west-1-iam.pem}
