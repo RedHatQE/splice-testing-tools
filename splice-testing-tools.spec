@@ -80,6 +80,7 @@ fi
 %defattr(-,root,root,-)
 %doc LICENSE README.md
 %attr(0755, root, root) %{_bindir}/*.py
+%config(noreplace) %attr(0644, root, root) %{_sysconfdir}/splice-testing.yaml
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
 %{python_sitelib}/splicetestlib/pageobjects/*.py*

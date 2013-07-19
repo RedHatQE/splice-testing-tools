@@ -11,7 +11,9 @@ class BasePageElement(object):
 
 class InputPageElement(BasePageElement):
     def __set__(self, obj, value):
-        self.__get__(obj).send_keys(value)
+        element = self.__get__(obj)
+        element.clear()
+        element.send_keys(value)
 
 class ButtonPageElement(BasePageElement):
     def click(self):
