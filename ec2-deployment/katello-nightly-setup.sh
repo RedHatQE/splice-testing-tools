@@ -16,7 +16,7 @@ rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.r
 rpm -Uvh http://fedorapeople.org/groups/katello/releases/yum/nightly/RHEL/6/x86_64/katello-repos-latest.rpm
 
 # install katello
-yum install -y katello-headpin-all
+yum install -y katello-all
 
 # splice repo
 cat > /etc/yum.repos.d/splice.repo << EOF
@@ -38,7 +38,7 @@ setenforce 0
 sed -i s,SELINUX=enforcing,SELINUX=permissive, /etc/sysconfig/selinux
 
 # configure katello
-katello-configure --reset-data=YES --deployment=sam --user-pass=admin
+katello-configure --reset-data=YES --deployment=katello --user-pass=admin
 
 # ensure katello is up and running
 katello-service start
