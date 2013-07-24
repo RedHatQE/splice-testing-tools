@@ -11,9 +11,10 @@ import datetime
 
 class Katello(object):
     """ Katello API calls """
-    def __init__(self, hostname='localhost', path='/sam', username='admin', password='admin', verify=False):
+    def __init__(self, hostname='localhost', deployment='sam', username='admin', password='admin', verify=False):
         self.hostname = hostname
-        self.path = path
+        self.deployment = deployment
+        self.path = '/' + deployment
         self.username = username
         self.password = password
         self.verify = verify

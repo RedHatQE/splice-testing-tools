@@ -41,11 +41,14 @@ class SpliceTestcase(object):
         if "KATELLO" in typeinstance.ss.Instances:
             katello_user = 'admin'
             katello_password = 'admin'
+            katello_deployment = 'sam'
             if hasattr(typeinstance.ss, "config"):
                 if "katello_user" in typeinstance.ss.config:
                     katello_user = typeinstance.ss.config["katello_user"]
                 if "katello_password" in typeinstance.ss.config:
                     katello_password = typeinstance.ss.config["katello_password"]
+                if "katello_deployment" in typeinstance.ss.config:
+                    katello_deployment = typeinstance.ss.config["katello_deployment"]
             typeinstance.katello = Katello(
                 hostname=typeinstance.ss.Instances["KATELLO"][0].hostname,
                 username=katello_user,
