@@ -52,7 +52,8 @@ class SpliceTestcase(object):
             typeinstance.katello = Katello(
                 hostname=typeinstance.ss.Instances["KATELLO"][0].hostname,
                 username=katello_user,
-                password=katello_password
+                password=katello_password,
+                deployment=katello_deployment
             )
         else:
             typeinstance.katello = None
@@ -159,9 +160,13 @@ class Splice_has_FAKE_SPACEWALK(object):
 
         katello_conf.set("spacewalk", "host", fake_spacewalk.hostname)
         katello_conf.set("spacewalk", "ssh_key_path", "/var/lib/splice/.ssh/id_rsa")
+        if hasattr(ss, "config"):
+            if 'katello_deployment' in ss.config:
+                katello_conf.set('katello', 'api_url', '/' + ss.config['katello_deployment'])
 
         with katello.rpyc.builtins.open(self._splice_checkin_conf_path, "w+") as fd:
             katello_conf.write(fd)
+        katello.pbm['chown']['root:splice', self._splice_checkin_conf_path]()
 
     @classmethod
     def cleanup(self, ss):
