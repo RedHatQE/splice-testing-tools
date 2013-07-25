@@ -39,7 +39,7 @@ def sst_step(connection, fake_spacewalk_connection=None, timeout=120):
 
 def cleanup_katello(connection, keep_splice=False, password='admin'):
     """ Clean up katello and splice databases """
-    _run_command(connection, "katello-configure --user-pass='%s' --reset-data=YES" % password, 300)
+    _run_command(connection, "katello-configure --user-pass='%s' --reset-data=YES" % password, 500)
     if not keep_splice:
         _run_command(connection, "service splice_all stop ||:")
         _run_command(connection, "mongo checkin_service --eval 'db.dropDatabase()'")
