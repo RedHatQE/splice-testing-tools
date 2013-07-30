@@ -4,7 +4,7 @@
   action: shell find /dev -name "xvd*" -not -exec grep -q {} /proc/mounts \; -printf "%p~" -exec sfdisk -suM {} \; | sort  -n | tail -1 | cut -d~ -f1\,1 | xargs -I {} basename {} | tee /tmp/storage_${storage.name}.flag
     creates=/tmp/storage_${storage.name}.flag
   register: disk
-  when_set: ${storage.name}
+  when: "storage.name is defined"
   tags:
   - storage
   - storage_disk
@@ -14,7 +14,7 @@
     creates=/tmp/${disk.stdout_lines[0]}.mkfs.flag
   async: 900
   poll: 10
-  when_set: $disk
+  when: "disk is defined"
   tags:
   - storage
   - storage_mkfs
@@ -23,7 +23,7 @@
   action: file
       path=${storage.mount_path}
       state=directory
-  when_set: ${storage.mount_path}
+  when: "storage.mount_path is defined"
   tags:
   - storage
   - storage_mount_path
@@ -34,8 +34,8 @@
       src=/dev/${disk.stdout_lines[0]}
       fstype=ext4
       state=mounted
-  when_set: $disk
-  when_set: ${storage.mount_path}
+  when: "disk is defined"
+  when: "storage.mount_path is defined"
   tags:
   - storage
   - storage_mount
@@ -47,10 +47,10 @@
       owner=${storage.owner}
       group=${storage.group}
       mode=${storage.mode}
-  when_set: ${storage.mount_path}
-  when_set: ${storage.owner}
-  when_set: ${storage.group}
-  when_set: ${storage.mode}
+  when: "storage.mount_path is defined"
+  when: "storage.owner is defined"
+  when: "storage.group is defined"
+  when: "storage.mode is defined"
   tags:
   - storage
   - storage_permissions

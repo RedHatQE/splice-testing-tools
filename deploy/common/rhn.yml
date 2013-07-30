@@ -8,9 +8,9 @@
     user=${rhn.user}
     password=${rhn.password}
     state=${rhn.state}
-  when_set: ${rhn.channel}
-  when_set: ${rhn.sysname}
-  when_set: ${rhn.url}
-  when_set: ${rhn.user}
-  when_set: ${rhn.password}
-  when_set: ${rhn.state}
+  when: "rhn.channel is defined"
+  when: "rhn.sysname is defined"
+  when: "rhn.url is defined"
+  when: "rhn.user is defined"
+  when: "rhn.password is defined"
+  when: "rhn.state is defined"

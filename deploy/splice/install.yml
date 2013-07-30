@@ -14,7 +14,7 @@
     chdir=${iso.mount_path}
     creates=/tmp/sam_installed.mark
   register: sam_install_status
-  when_set: ${iso.mount_path}
+  when: "iso.mount_path is defined"
   ignore_errors: true
   tags:
   - sam
