@@ -15,7 +15,7 @@
   - python-jinja2
   - python-setuptools
   - python-devel
-  - python-request
+  - python-requests
   - python-iso8601
   - asciidoc
   - rpm-build
@@ -23,6 +23,7 @@
   - pymongo
   - "https://rhuiqerpm.s3.amazonaws.com/python-plumbum-1.1.0_gitebe4cc4-2.fc18.noarch.rpm"
   - "https://rhuiqerpm.s3.amazonaws.com/python-rpyc-3.3.0git40daa0c6-2.fc18.noarch.rpm"
+  - "https://rhuiqerpm.s3.amazonaws.com/python-selenium-2.33.1-1.git.1.ad541f1.fc19.x86_64.rpm"
 
 - name: easy install packages
   action: easy_install name=${item}
