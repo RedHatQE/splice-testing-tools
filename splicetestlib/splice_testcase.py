@@ -89,7 +89,7 @@ class SpliceTestcase(object):
             self._cleanup()
 
     @classmethod
-    def splice_check_report(typeinstance, days_start=None, days_end=None, past_hours=None, inactive=False, current=0, invalid=0, insufficient=0):
+    def splice_check_report(typeinstance, days_start=None, days_end=None, past_hours=None, state=[], current=0, invalid=0, insufficient=0, satellite_name=None):
         """
         Create splice report and check it
 
@@ -102,8 +102,8 @@ class SpliceTestcase(object):
         @param past_hours: Create report for past N hours
         @type past_hours: int
 
-        @param inactive: create Inactive report
-        @type inactive: bool
+        @param state: states ['Active', 'Inactive', 'Deleted']
+        @type state: list
 
         @param current: expected number of current subscriptions
         @type current: int
@@ -113,16 +113,22 @@ class SpliceTestcase(object):
 
         @param insufficient: expected number of insufficient subscriptions
         @type insufficient: int
+
+        @param satellite_name: satellite name
+        @type insufficient: str
         """
+        if satellite_name is None:
+            satellite_name = typeinstance.ss.Instances["FAKE_SPACEWALK"][0].hostname
+
         if not hasattr(typeinstance, "last_checkin") or typeinstance.last_checkin is None:
             typeinstance.last_checkin = typeinstance.katello.find_last_checkin()
 
         if days_start is not None and days_end is not None:
             date1 = (typeinstance.last_checkin - datetime.timedelta(days_start)).strftime('%m/%d/%Y')
             date2 = (typeinstance.last_checkin - datetime.timedelta(days_end)).strftime('%m/%d/%Y')
-            id_rep = typeinstance.katello.create_report('testing_report_%s_%s_%s' % (days_start, days_end, inactive), start_date=date1, end_date=date2, inactive=inactive)
+            id_rep = typeinstance.katello.create_report('testing_report_%s_%s_%s' % (days_start, days_end, state), start_date=date1, end_date=date2, state=state, satellite_name=satellite_name)
         elif past_hours is not None:
-            id_rep = typeinstance.katello.create_report('testing_report_%s_hours_%s' % (past_hours, inactive), time='choose_hour', hours=past_hours, inactive=inactive)
+            id_rep = typeinstance.katello.create_report('testing_report_%s_hours_%s' % (past_hours, state), time='choose_hour', hours=past_hours, state=state, satellite_name=satellite_name)
         else:
             # Wrong usage
             assert False
