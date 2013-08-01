@@ -133,7 +133,7 @@ class test_splice_3(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
 
     def test_18_consolidated_future(self):
         """
-        Inactive report future month
+        Consolidated report future month
         Expecting 1 invalid subscription
         """
         self.splice_check_report(days_start=-21, days_end=-31, state=['Active', 'Inactive'], invalid=1)
