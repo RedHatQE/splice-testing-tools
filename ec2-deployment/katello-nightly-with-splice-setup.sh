@@ -43,7 +43,7 @@ setenforce 0
 sed -i s,SELINUX=enforcing,SELINUX=permissive, /etc/sysconfig/selinux
 
 # configure katello
-katello-configure --reset-data=YES --deployment=sam --user-pass=admin
+katello-configure --no-bars --reset-data=YES --deployment=sam --user-pass=admin
 
 # ensure katello is up and running
 katello-service start
