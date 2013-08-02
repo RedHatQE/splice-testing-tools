@@ -4,7 +4,9 @@
 exec &> /var/log/katello-nightly-with-splice-setup.log 2>&1
 
 # set up iptables
+iptables -I INPUT -p tcp --destination-port 80 -j ACCEPT
 iptables -I INPUT -p tcp --destination-port 443 -j ACCEPT
+iptables -I INPUT -p tcp --destination-port 8088 -j ACCEPT
 service iptables save
 
 # hostname
