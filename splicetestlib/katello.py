@@ -11,9 +11,10 @@ import datetime
 
 class Katello(object):
     """ Katello API calls """
-    def __init__(self, hostname='localhost', path='/sam', username='admin', password='admin', verify=False):
+    def __init__(self, hostname='localhost', deployment='sam', username='admin', password='admin', verify=False):
         self.hostname = hostname
-        self.path = path
+        self.deployment = deployment
+        self.path = '/' + deployment
         self.username = username
         self.password = password
         self.verify = verify
@@ -127,7 +128,7 @@ class Katello(object):
         os.unlink(tf.name)
         return expcsv, metadata, expjson
 
-    def create_report(self, name, organizations=None, time='choose_daterange', hours='', start_date='', end_date='', status=['Current', 'Invalid', 'Insufficient'], satellite_name='', description='', inactive=False, set_org=1):
+    def create_report(self, name, organizations=None, time='choose_daterange', hours='', start_date='', end_date='', status=['Current', 'Invalid', 'Insufficient'], satellite_name='', description='', state=['Active', 'Inactive', 'Deleted'], set_org=1):
         """ Create report """
         assert (time == 'choose_hour' and hours != '' and start_date == '' and end_date == '') or \
             (time == 'choose_daterange' and start_date != '' and end_date != '' and hours == '')
@@ -140,6 +141,7 @@ class Katello(object):
                        'splice_reports_filter[name]': name,
                        'splice_reports_filter[description]': description,
                        'splice_reports_filter[status][]': [''] + status,
+                       'splice_reports_filter[state][]': [''] + state,
                        'splice_reports_filter[satellite_name]': satellite_name,
                        'splice_reports_filter[organizations][]': [''] + organizations,
                        'time': time,
@@ -147,8 +149,6 @@ class Katello(object):
                        'splice_reports_filter[start_date]': start_date,
                        'splice_reports_filter[end_date]': end_date
                        }
-        if inactive:
-            report_form['inactive'] = 'on'
         headers = {'X-CSRF-Token': csrf}
 
         req_report = session.post('https://%s%s/splice_reports/filters/' % (self.hostname, self.path), data=report_form, headers=headers, verify=self.verify)

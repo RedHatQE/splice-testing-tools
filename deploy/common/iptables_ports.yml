@@ -15,7 +15,7 @@
   action: service
     name=iptables
     state=restarted
-  when_set: $open_ports
+  when: "open_ports is defined"
   tags:
   - iptables_service_restart
     

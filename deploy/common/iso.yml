@@ -10,8 +10,8 @@
     owner=root
     group=root
     mode=0644
-  when_set: ${iso.src}
-  when_set: ${iso.dest}
+  when: "iso.src is defined"
+  when: "iso.dest is defined"
   tags:
   - iso
   - iso_upload
@@ -20,7 +20,7 @@
   action: file
     path=${iso.mount_path}
     state=directory
-  when_set: ${iso.mount_path}
+  when: "iso.mount_path is defined"
   tags:
   - iso
   - iso_create_mount_dir
@@ -33,7 +33,7 @@
     fstype=iso9660
     state=mounted
     opts=loop
-  when_set: ${iso.mount_path}
+  when: "iso.mount_path is defined"
   tags:
   - iso
   - iso_mount
@@ -45,7 +45,7 @@
     fstype=iso9660
     state=unmounted
     opts=loop
-  when_set: ${iso.mount_path}
+  when: "iso.mount_path is defined"
   tags:
   - iso
   - iso_mount
@@ -57,7 +57,7 @@
     fstype=iso9660
     state=mounted
     opts=loop
-  when_set: ${iso.mount_path}
+  when: "iso.mount_path is defined"
   tags:
   - iso
   - iso_mount

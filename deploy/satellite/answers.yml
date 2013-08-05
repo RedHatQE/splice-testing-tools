@@ -6,11 +6,11 @@
     dest=${answers.file}
     owner=root
     group=root
-  when_set: ${answers.file}
-  when_set: ${rhn.user}
-  when_set: ${rhn.password}
-  when_set: ${rhn.sysname}
-  when_set: ${rhn.cert}
+  when: "answers.file is defined"
+  when: "rhn.user is defined"
+  when: "rhn.password is defined"
+  when: "rhn.sysname is defined"
+  when: "rhn.cert is defined"
   tags:
   - satellite_answers
 
@@ -21,11 +21,11 @@
     owner=${credentials.owner}
     group=${credentials.group}
     mode=${credentials.mode}
-  when_set: ${credentials.rhn_cert}
-  when_set: ${credentials.path}
-  when_set: ${credentials.owner}
-  when_set: ${credentials.group}
-  when_set: ${credentials.mode}
+  when: "credentials.rhn_cert is defined"
+  when: "credentials.path is defined"
+  when: "credentials.owner is defined"
+  when: "credentials.group is defined"
+  when: "credentials.mode is defined"
   tags:
   - credentials
   - credentials_copy_cert

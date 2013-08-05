@@ -10,7 +10,7 @@
     src=${rpm_name.stdout_lines[0]}
     dest=/tmp/
     fail_on_missing=yes
-  when_set: $rpm_name
+  when: "rpm_name is defined"
   tags:
   - satellite_ssl_rpm_fetch
 

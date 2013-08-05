@@ -3,7 +3,7 @@
   action: template
     src=templates/sam.repo.j2
     dest=/etc/yum.repos.d/sam.repo
-  when_set: ${iso.mount_path}
+  when: "iso.mount_path is defined"
   tags:
   - repos
   - sam_repos

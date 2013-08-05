@@ -10,6 +10,6 @@
     name=${rpm_name.stdout_lines[0]}
   # FIXME: could be done in a more polite way
   with_items: ${groups.SATELLITE}
-  when_set: $rpm_name
+  when: "rpm_name is defined"
   tags:
   - satellite_install_ca_cert_rpm
