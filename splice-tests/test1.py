@@ -8,7 +8,7 @@ class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         splicetestlib.fake_spacewalk_env(self.ss.Instances["FAKE_SPACEWALK"][0], "test1")
         splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest
-        self.katello.upload_manifest("2", self.ss.config["manifest"])
+        self.katello.upload_manifest("satellite-1", self.ss.config["manifest"])
         for step in range(36):
             splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
 
@@ -76,7 +76,7 @@ class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         self.splice_check_report(past_hours=24, current=1, invalid=1, state=['Active', 'Inactive'])
 
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello.password)
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])

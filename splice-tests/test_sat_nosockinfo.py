@@ -13,7 +13,7 @@ class test_sat_nosockinfo(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
         nose.tools.assert_equals(sockets, "1")
 
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello.password)
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])
