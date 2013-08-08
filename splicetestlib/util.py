@@ -37,9 +37,19 @@ def sst_step(connection, fake_spacewalk_connection=None, timeout=120):
     else:
         fake_spacewalk_step(fake_spacewalk_connection)
 
-def cleanup_katello(connection, password='admin', keep_splice=False):
+def cleanup_katello(connection, katello, keep_splice=False, full_reset=False):
     """ Clean up katello and splice databases """
-    _run_command(connection, "katello-configure --no-bars --user-pass='%s' --reset-data=YES" % password, 500)
+    if full_reset:
+        _run_command(connection, "katello-configure --no-bars --user-pass='%s' --reset-data=YES" % katello.password, 900)
+    else:
+        for org in katello.list_organizations():
+            if org['id'] != 1:
+                # keeping default org
+                katello.delete_organization(org['label'])
+        for role in katello.list_roles():
+            if not role['id'] in [1, 2]:
+                # keeping default roles
+                katello.delete_role(role['id'])
     if not keep_splice:
         _run_command(connection, "service splice_all stop ||:")
         _run_command(connection, "mongo checkin_service --eval 'db.dropDatabase()'")
