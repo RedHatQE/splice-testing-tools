@@ -630,7 +630,8 @@ for i in con_ec2.get_all_instances():
                             "private_hostname": private_hostname,
                             "role": role,
                             "public_ip": public_ip,
-                            "private_ip": private_ip}
+                            "private_ip": private_ip,
+                            "public_dns_name": ii.public_dns_name}
 
             for tag_key in ii.tags.keys():
                 if tag_key not in ["PublicHostname", "PrivateHostname", "Role"]:
@@ -642,6 +643,9 @@ for i in con_ec2.get_all_instances():
                 hostsfile.write(private_ip + "\t" + private_hostname + "\n")
             if public_hostname and public_ip:
                 hostsfile.write(public_ip + "\t" + public_hostname + "\n")
+            if private_ip and 'public_dns_name' in details_dict:
+                hostsfile.write(private_ip + "\t" + details_dict['public_dns_name'] + "\n")
+
 yamlconfig = {'Instances': instances_detail[:]}
 yamlfile.write(yaml.safe_dump(yamlconfig))
 yamlfile.close()
@@ -669,6 +673,11 @@ for instance in instances_detail:
         setup_script = args.mastersetup
     if instance["role"] != "Master" and args.instancesetup:
         setup_script = args.instancesetup
+
+    if instance["role"].upper() == 'SAM':
+        setup_slave(instance["client"], instance["sftp"], instance['public_dns_name'],
+                    hostsfile.name, yamlfile.name, master_keys, setup_script)
+        continue
 
     setup_slave(instance["client"], instance["sftp"], hostname,
                 hostsfile.name, yamlfile.name, master_keys, setup_script)
