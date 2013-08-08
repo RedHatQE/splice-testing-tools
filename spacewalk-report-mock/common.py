@@ -68,4 +68,7 @@ def print_all(dirname, data):
         fd = open("%s/%s.csv" % (dirname, report.replace("_", "-")), "w")
         fd.write(globals()["print_%s" % report](data[report]))
         fd.close()
-
+    fd = open("%s/%s.csv" % (dirname, "fake-checkin-date"), "w")
+    if 'fake_checkin_date' in data:
+        fd.write(data['fake_checkin_date'])
+    fd.close()
