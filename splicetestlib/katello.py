@@ -29,9 +29,24 @@ class Katello(object):
         else:
             return None
 
+    def _wait_for_task(self, task_id, maxtries=30):
+        """ Wait for task """
+        cnt = maxtries
+        while cnt > 0:
+            task_status = self._request_return(requests.get('https://%s%s/api/tasks/%s' % (self.hostname, self.path, task_id), auth=(self.username, self.password), verify=self.verify))
+            if task_status is None:
+                break
+            if task_status['pending?'] is False:
+                return task_status
+            time.sleep(2)
+
     def list_roles(self):
         """ List roles """
         return self._request_return(requests.get('https://%s%s/api/roles' % (self.hostname, self.path), auth=(self.username, self.password), verify=self.verify))
+
+    def list_users(self):
+        """ List users """
+        return self._request_return(requests.get('https://%s%s/api/users' % (self.hostname, self.path), auth=(self.username, self.password), verify=self.verify))
 
     def list_organizations(self):
         """ List oraganizations """
@@ -61,6 +76,15 @@ class Katello(object):
         """ Show user """
         return self._request_return(requests.get('https://%s%s/api/users/%s' % (self.hostname, self.path, user_id), auth=(self.username, self.password), verify=self.verify))
 
+    def delete_organization(self, organization_label):
+        """ Delete org """
+        ret = self._request_return(requests.delete('https://%s%s/api/organizations/%s' % (self.hostname, self.path, organization_label), auth=(self.username, self.password), verify=self.verify))
+        return self._wait_for_task(ret['uuid'])
+
+    def delete_role(self, role_id):
+        """ Detach role """
+        return self._request_return(requests.delete('https://%s%s/api/roles/%s' % (self.hostname, self.path, role_id), auth=(self.username, self.password), verify=self.verify))
+
     def delete_subscription(self, system_id, subscription_id):
         """ Detach subscription """
         return self._request_return(requests.delete('https://%s%s/api/systems/%s/subscriptions/%s' % (self.hostname, self.path, system_id, subscription_id), auth=(self.username, self.password), verify=self.verify))
@@ -70,19 +94,19 @@ class Katello(object):
         data = {'quantity': quantity, 'pool': pool_id}
         return self._request_return(requests.post('https://%s%s/api/systems/%s/subscriptions' % (self.hostname, self.path, system_id), auth=(self.username, self.password), verify=self.verify, params=data))
 
-    def upload_manifest(self, provider_id, manifest_file):
+    def upload_manifest(self, org_label, manifest_file, provider_name='Red Hat'):
         """ Upload manifest """
+        provider_id = None
+        for provider in self.list_providers(org_label):
+            if provider['name'] == provider_name:
+                provider_id = provider['id']
+                break
+        if provider_id is None:
+            # no such provider
+            return None
         files = {'import': ('manifest.zip', open(manifest_file, 'rb'))}
         ret = self._request_return(requests.post('https://%s%s/api/providers/%s/import_manifest' % (self.hostname, self.path, provider_id), auth=(self.username, self.password), verify=self.verify, files=files))
-        task_id = ret['uuid']
-        cnt = 30
-        while cnt > 0:
-            task_status = self._request_return(requests.get('https://%s%s/api/tasks/%s' % (self.hostname, self.path, task_id), auth=(self.username, self.password), verify=self.verify))
-            if task_status is None:
-                break
-            if task_status['pending?'] is False:
-                return task_status
-            time.sleep(2)
+        return self._wait_for_task(ret['uuid'])
 
     def delete_manifest(self, provider_id):
         """ Delete manifest """
