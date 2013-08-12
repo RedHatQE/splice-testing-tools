@@ -2,6 +2,7 @@
 - name: setup satellite node
   hosts:
   - SATELLITE
+  - SPACEWALK
   user: root
 
   vars_files:
