@@ -3,6 +3,7 @@
   action: template
     src=splice/templates/checkin.conf.j2
     dest=/etc/splice/checkin.conf
+    mode=0644
   with_file:
   - /etc/katello_password
   tags:
