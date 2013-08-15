@@ -49,8 +49,6 @@
 - name: authorize splice@katello to swreport@master for fake sst
   connection: local 
   user: root
-  sudo: yes
-  sudo_user: swreport
   hosts:
   - Master
 
@@ -59,6 +57,8 @@
 
   tasks:
   - include: common/ssh_authorize_key.yml
+    vars:
+      ssh_authorized_keys_user: swreport
 
 
 - name: configure splicetestlib
