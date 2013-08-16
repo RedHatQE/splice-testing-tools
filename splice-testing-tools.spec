@@ -10,7 +10,7 @@ Source0:	%{name}-%{version}.tar.gz
 BuildArch:  noarch
 
 BuildRequires:	python-devel
-Requires:	python-nose PyYAML python-selenium-wrapper
+Requires:	python-nose PyYAML python-selenium-wrapper splice-testing-pageobjects
 
 %description
 %{summary}
