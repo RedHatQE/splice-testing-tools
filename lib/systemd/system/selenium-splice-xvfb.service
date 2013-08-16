@@ -4,7 +4,7 @@ Description=Splice Selenium Service, batteries included, Xvfb part
 [Service]
 Type=simple
 EnvironmentFile=/etc/sysconfig/selenium-splice.conf
-ExecStart=/bin/Xvfb $DISPLAY
+ExecStart=/bin/Xvfb $DISPLAY -shmem -screen 0 1600x1200x24
 
 [Install]
 WantedBy=multi-user.target
