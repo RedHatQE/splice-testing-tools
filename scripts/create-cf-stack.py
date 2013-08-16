@@ -53,6 +53,7 @@ def setup_host_ssh(hostname, key):
     client = SyncSSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    custom_users=['ec2-user', 'fedora']
     while ntries > 0:
         try:
             logging.debug("Trying to connect to %s as root" % hostname)
@@ -61,18 +62,19 @@ def setup_host_ssh(hostname, key):
                            key_filename=key,
                            look_for_keys=False)
             stdin, stdout, stderr = client.run_sync("whoami")
-            output = stdout.read()
+            output = stdout.read().strip()
             logging.debug("OUTPUT for 'whoami': " + output)
-            if output != "root\n":
+            if output != "root":
                 #It's forbidden to login under 'root', switching this off
+                user = custom_users[ntries % len(custom_users)]
                 client = SyncSSHClient()
                 client.load_system_host_keys()
                 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                 client.connect(hostname=hostname,
-                               username="ec2-user",
+                               username=user,
                                key_filename=key,
                                look_for_keys=False)
-                client.run_with_pty("sudo su -c 'cp -af /home/ec2-user/.ssh/authorized_keys /root/.ssh/authorized_keys; chown root.root /root/.ssh/authorized_keys'")
+                client.run_with_pty("sudo su -c 'cp -af /home/%s/.ssh/authorized_keys /root/.ssh/authorized_keys; chown root.root /root/.ssh/authorized_keys'" % user)
                 client.run_with_pty("sudo su -c \"sed -i 's,disable_root: 1,disable_root: 0,' /etc/cloud/cloud.cfg\"")
                 client.connect(hostname=hostname,
                                username="root",
