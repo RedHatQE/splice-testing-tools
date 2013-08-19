@@ -1,3 +1,40 @@
 #! /bin/sh
 
-cat /var/lib/spacewalk-report-mock/current/$1.csv
+LIB_PATH=/var/lib/spacewalk-report-mock/current
+
+_report_to_input_file() {
+  echo "${LIB_PATH}/${1}.csv"
+}
+
+usage() {
+cat <<__USAGE
+NAME:
+  spacewalk-report mock the spacewalk-report piping custom csv files
+
+USAGE:
+  spacewalk-report cloned-channels|host-guests|splice-export|users
+
+FILES:
+  $LIB_PATH
+    cloned-channels.csv
+    host-guests.csv
+    splice-export.csv
+    users.csv
+
+SEE ALSO:
+   spacewalk-report-set
+
+__USAGE
+}
+
+case "$1" in
+  -h|--help) usage ; exit 0 ;;
+esac
+
+[ -f `_report_to_input_file "${1}"` ] || {
+  usage ;
+  echo "wrong report: $1" ;
+  exit 1
+}
+
+cat `_report_to_input_file "${1}"`

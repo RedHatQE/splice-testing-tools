@@ -2,10 +2,13 @@
 - include: satellite-installer.yml
 - include: splice-installer.yml
 
-- name: authorize root splice for satellite
+- name: authorize root splice for all satellite roles
   hosts:
   - SATELLITE
+  - SPACEWALK
   user: root
+  sudo: yes
+  sudo_user: swreport
 
   vars_files:
   - splice/vars/sst_ssh_keys.yml

@@ -53,6 +53,7 @@ def setup_host_ssh(hostname, key):
     client = SyncSSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    custom_users=['ec2-user', 'fedora']
     while ntries > 0:
         try:
             logging.debug("Trying to connect to %s as root" % hostname)
@@ -61,18 +62,19 @@ def setup_host_ssh(hostname, key):
                            key_filename=key,
                            look_for_keys=False)
             stdin, stdout, stderr = client.run_sync("whoami")
-            output = stdout.read()
+            output = stdout.read().strip()
             logging.debug("OUTPUT for 'whoami': " + output)
-            if output != "root\n":
+            if output != "root":
                 #It's forbidden to login under 'root', switching this off
+                user = custom_users[ntries % len(custom_users)]
                 client = SyncSSHClient()
                 client.load_system_host_keys()
                 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                 client.connect(hostname=hostname,
-                               username="ec2-user",
+                               username=user,
                                key_filename=key,
                                look_for_keys=False)
-                client.run_with_pty("sudo su -c 'cp -af /home/ec2-user/.ssh/authorized_keys /root/.ssh/authorized_keys; chown root.root /root/.ssh/authorized_keys'")
+                client.run_with_pty("sudo su -c 'cp -af /home/%s/.ssh/authorized_keys /root/.ssh/authorized_keys; chown root.root /root/.ssh/authorized_keys'" % user)
                 client.run_with_pty("sudo su -c \"sed -i 's,disable_root: 1,disable_root: 0,' /etc/cloud/cloud.cfg\"")
                 client.connect(hostname=hostname,
                                username="root",
@@ -240,6 +242,14 @@ json_dict['Mappings'] = \
                 u'us-east-1': {u'AMI': u'ami-b71078de'},
                 u'us-west-1': {u'AMI': u'ami-674f6122'},
                 u'us-west-2': {u'AMI': u'ami-fd9302cd'}},
+   u'F19': {u'ap-northeast-1': {u'AMI': u'ami-95b52094'},
+                u'ap-southeast-1': {u'AMI': u'ami-da450c88'},
+                u'ap-southeast-2': {u'AMI': u'ami-5565f66f'},
+                u'eu-west-1': {u'AMI': u'ami-f1031e85'},
+                u'sa-east-1': {u'AMI': u'ami-b055f0ad'},
+                u'us-east-1': {u'AMI': u'ami-b22e5cdb'},
+                u'us-west-1': {u'AMI': u'ami-10cce555'},
+                u'us-west-2': {u'AMI': u'ami-9727b7a7'}},
    u'RHEL58': {u'ap-northeast-1': {u'AMI': u'ami-60229461'},
                 u'ap-southeast-1': {u'AMI': u'ami-da8dc988'},
                 u'ap-southeast-2': {u'AMI': u'ami-65b7205f'},
@@ -350,10 +360,10 @@ json_dict['Resources'] = \
 
 
 json_dict['Resources']["master"] = \
-{u'Properties': {u'ImageId': {u'Fn::FindInMap': [u'F18',
+{u'Properties': {u'ImageId': {u'Fn::FindInMap': [u'F19',
                                                              {u'Ref': u'AWS::Region'},
                                                              u'AMI']},
-                             u'InstanceType': u'm1.small',
+                             u'InstanceType': u'c1.medium',
                              u'KeyName': {u'Ref': u'KeyName'},
                              u'SecurityGroups': [{u'Ref': u'MASTERsecuritygroup'}],
                              u'Tags': [{u'Key': u'Name',

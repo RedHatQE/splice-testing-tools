@@ -35,7 +35,18 @@
   tasks:
   - include: common/ssh_keygen.yml
 
-- name: authorize root splice for master for fake sst
+
+- name: create swreport@master user for fake sst
+  connection: local
+  user: root
+  hosts:
+  - Master
+
+  tasks:
+  - name: create swreport@master user for fake sst
+    action: user name=swreport  generate_ssh_key=yes
+
+- name: authorize splice@katello to swreport@master for fake sst
   connection: local 
   user: root
   hosts:
@@ -46,7 +57,17 @@
 
   tasks:
   - include: common/ssh_authorize_key.yml
+    vars:
+      ssh_authorized_keys_user: swreport
 
+
+- name: configure splicetestlib
+  connection: local 
+  hosts:
+  - Master
+  user: root
+
+  tasks:
   # configure sam user and password
   - name: propagate sam user to splicetestlib
     action: shell splice-add-testing-parameter.py --param=katello_user --value=admin

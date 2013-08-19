@@ -1,12 +1,12 @@
 # requires ssh_keys_host and ssh_keys_file to operate
 # ssh ssh_keygen tasks have to run before
 # schema:
-#  ssh_keys_host/ssh_keys_file.pub -> ansible_user_id@ansible_hostname:/ssh_authorized_keys_file
+#  ssh_keys_host/ssh_keys_file.pub -> ansible_user_id@ansible_hostname:~ssh_authorized_keys_user/ssh_authorized_keys_file
 
 - name: authorize an ssh key for a user and a role
   action: authorized_key
     key="${item}"
-    user=${ansible_user_id}
+    user=${ssh_authorized_keys_user}
     path=${ssh_authorized_keys_file}
     state=present
   when: "ssh_authorized_keys_file is defined"
