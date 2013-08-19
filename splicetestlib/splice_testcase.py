@@ -120,12 +120,11 @@ class SpliceTestcase(object):
         if satellite_name is None:
             satellite_name = typeinstance.ss.Instances["FAKE_SPACEWALK"][0].hostname
 
-        if not hasattr(typeinstance, "last_checkin") or typeinstance.last_checkin is None:
-            typeinstance.last_checkin = typeinstance.katello.find_last_checkin()
+        date_now = datetime.datetime.now()
 
         if days_start is not None and days_end is not None:
-            date1 = (typeinstance.last_checkin - datetime.timedelta(days_start)).strftime('%m/%d/%Y')
-            date2 = (typeinstance.last_checkin - datetime.timedelta(days_end)).strftime('%m/%d/%Y')
+            date1 = (date_now - datetime.timedelta(days_start)).strftime('%m/%d/%Y')
+            date2 = (date_now - datetime.timedelta(days_end)).strftime('%m/%d/%Y')
             id_rep = typeinstance.katello.create_report('testing_report_%s_%s_%s' % (days_start, days_end, state), start_date=date1, end_date=date2, state=state, satellite_name=satellite_name)
         elif past_hours is not None:
             id_rep = typeinstance.katello.create_report('testing_report_%s_hours_%s' % (past_hours, state), time='choose_hour', hours=past_hours, state=state, satellite_name=satellite_name)
