@@ -242,6 +242,14 @@ json_dict['Mappings'] = \
                 u'us-east-1': {u'AMI': u'ami-b71078de'},
                 u'us-west-1': {u'AMI': u'ami-674f6122'},
                 u'us-west-2': {u'AMI': u'ami-fd9302cd'}},
+   u'F19': {u'ap-northeast-1': {u'AMI': u'ami-95b52094'},
+                u'ap-southeast-1': {u'AMI': u'ami-da450c88'},
+                u'ap-southeast-2': {u'AMI': u'ami-5565f66f'},
+                u'eu-west-1': {u'AMI': u'ami-f1031e85'},
+                u'sa-east-1': {u'AMI': u'ami-b055f0ad'},
+                u'us-east-1': {u'AMI': u'ami-b22e5cdb'},
+                u'us-west-1': {u'AMI': u'ami-10cce555'},
+                u'us-west-2': {u'AMI': u'ami-9727b7a7'}},
    u'RHEL58': {u'ap-northeast-1': {u'AMI': u'ami-60229461'},
                 u'ap-southeast-1': {u'AMI': u'ami-da8dc988'},
                 u'ap-southeast-2': {u'AMI': u'ami-65b7205f'},
@@ -352,10 +360,10 @@ json_dict['Resources'] = \
 
 
 json_dict['Resources']["master"] = \
-{u'Properties': {u'ImageId': {u'Fn::FindInMap': [u'F18',
+{u'Properties': {u'ImageId': {u'Fn::FindInMap': [u'F19',
                                                              {u'Ref': u'AWS::Region'},
                                                              u'AMI']},
-                             u'InstanceType': u'm1.small',
+                             u'InstanceType': u'c1.medium',
                              u'KeyName': {u'Ref': u'KeyName'},
                              u'SecurityGroups': [{u'Ref': u'MASTERsecuritygroup'}],
                              u'Tags': [{u'Key': u'Name',
