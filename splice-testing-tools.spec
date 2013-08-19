@@ -83,7 +83,6 @@ fi
 %config(noreplace) %attr(0644, root, root) %{_sysconfdir}/splice-testing.yaml
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/splicetestlib/*.py*
-%{python_sitelib}/splicetestlib/pageobjects/*.py*
 %attr(0644, root, root) %{_datadir}/%name/splice-tests/*.py
 %exclude %{_datadir}/%name/splice-tests/*.py?
 
