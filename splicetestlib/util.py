@@ -19,6 +19,8 @@ def run_sst(connection, spacewalk_only=False, splice_only=False, timeout=120):
         command += " --spacewalk-sync"
     elif splice_only:
         command += " --splice-sync"
+    # changing system date
+    _run_command(connection, "[ ! -z \"`spacewalk-report fake-checkin-date`\" ] && date -s \"`spacewalk-report fake-checkin-date`\" && katello-service restart && sleep 10 ||:", 3 * timeout)
     _run_command(connection, command, timeout)
 
 def fake_spacewalk_env(connection, test_name):
