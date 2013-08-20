@@ -366,6 +366,12 @@ json_dict['Resources']["master"] = \
                              u'InstanceType': u'c1.medium',
                              u'KeyName': {u'Ref': u'KeyName'},
                              u'SecurityGroups': [{u'Ref': u'MASTERsecuritygroup'}],
+                             u'BlockDeviceMappings': [
+                                    {
+                                        u"DeviceName" : u"/dev/sda1",
+                                        u"Ebs" : { u"VolumeSize" : u"10" }
+                                    }
+                               ],
                              u'Tags': [{u'Key': u'Name',
                                         u'Value': {u'Fn::Join': [u'_',
                                                                  [u'RHUI_Master',
