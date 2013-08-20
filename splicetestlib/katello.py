@@ -34,11 +34,12 @@ class Katello(object):
         cnt = maxtries
         while cnt > 0:
             task_status = self._request_return(requests.get('https://%s%s/api/tasks/%s' % (self.hostname, self.path, task_id), auth=(self.username, self.password), verify=self.verify))
-            if task_status is None:
+            if task_status is None or task_status['pending?'] is False:
                 break
-            if task_status['pending?'] is False:
-                return task_status
             time.sleep(2)
+            cnt -= 1
+        assert cnt > 0, "maxtries %s while waiting for task %s" % (maxtries, task_id)
+        return task_status
 
     def list_roles(self):
         """ List roles """
@@ -55,6 +56,14 @@ class Katello(object):
     def list_systems(self, organization_label):
         """ List systems """
         return self._request_return(requests.get('https://%s%s/api/organizations/%s/systems' % (self.hostname, self.path, organization_label), auth=(self.username, self.password), verify=self.verify))
+
+    def list_systems_by_custom_info(self, organization_label, key, value):
+        """ List systems by custom info"""
+        data = {'search': "custom_info.%s:%s" % (key, value)}
+        return self._request_return(requests.get('https://%s%s/api/organizations/%s/systems' % (self.hostname, self.path, organization_label),
+                                                 auth=(self.username, self.password),
+                                                 verify=self.verify,
+                                                 params=data))
 
     def list_providers(self, organization_label):
         """ List providers """
