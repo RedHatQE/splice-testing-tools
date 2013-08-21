@@ -19,6 +19,7 @@ fd_users.close()
 
 
 def generate(dirname):
+    splice_export['sockets']=''
     print_all("%s/step1" % dirname, {'host_guests': [],
                                      'cloned_channels': [],
                                      'users': [users],

@@ -13,6 +13,7 @@ fd_splice_export = open('%s/template_splice_export.yaml' % path, 'r')
 splice_export = []
 splice_export.append(yaml.safe_load(fd_splice_export.read()))
 fd_splice_export.close()
+splice_export[0]['software_channel'] = 'rhel-x86_64-hpc-node-6'
 for i in range(1,300):
     # creating 299 additional systems
     splice_export.append(splice_export[0].copy())

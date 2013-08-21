@@ -13,9 +13,9 @@ fd_splice_export = open('%s/template_splice_export.yaml' % path, 'r')
 splice_export = yaml.safe_load(fd_splice_export.read())
 fd_splice_export.close()
 
-fd_cloned_channels = open('%s/template_cloned_channels.yaml' % path, 'r')
-cloned_channels = yaml.safe_load(fd_cloned_channels.read())
-fd_cloned_channels.close()
+fd_host_guests = open('%s/template_host_guests.yaml' % path, 'r')
+host_guests = yaml.safe_load(fd_host_guests.read())
+fd_host_guests.close()
 
 fd_users = open('%s/template_users.yaml' % path, 'r')
 users = yaml.safe_load(fd_users.read())
@@ -26,15 +26,13 @@ def generate(dirname):
     # 24 hours ago
     initial_date = datetime.datetime.now() - datetime.timedelta(0, 24 * 4 * 3600)
     splice_export[0]['last_checkin_time'] = initial_date.strftime("%Y-%m-%d %H:%M:%S")
-    splice_export[0]['software_channel'] = 'rhel6-clone2'
     splice_export[1]['last_checkin_time'] = initial_date.strftime("%Y-%m-%d %H:%M:%S")
-    splice_export[1]['software_channel'] = 'rhel6-hpc2'
     print_all("%s/step1" % dirname, {'host_guests': [],
-                                     'cloned_channels': cloned_channels,
+                                     'cloned_channels': [],
                                      'users': [users],
                                      'splice_export': []})
     print_all("%s/step2" % dirname, {'host_guests': [],
-                                     'cloned_channels': cloned_channels,
+                                     'cloned_channels': [],
                                      'users': [users],
                                      'splice_export': splice_export})
 

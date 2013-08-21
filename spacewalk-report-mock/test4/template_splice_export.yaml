@@ -1,7 +1,1 @@
-{architecture: x86_64, entitlements: Spacewalk Management Entitled Servers, hardware: '1
-    CPUs 1 Sockets; eth0 10.64.147.151/255.255.254.0 12:31:43:07:94:69; lo 127.0.0.1/255.0.0.0
-    00:00:00:00:00:00', hostname: ip-10-64-147-151.eu-west-1.compute.internal, ip_address: 10.64.147.151,
-  ipv6_address: '::1', last_checkin_time: '2013-05-01 01:00:01', memory: '1655', name: ip-10-64-147-151.eu-west-1.compute.internal,
-  org_id: '1', organization: Testing Org, registered_by: admin, registration_time: '2013-05-01
-    00:00:00', server_id: '1000010000', sockets: '1', software_channel: rhel-x86_64-hpc-node-6,
-  system_group: '', virtual_host: ''}
+../common-data/splice_export-1-rhel6.yaml
