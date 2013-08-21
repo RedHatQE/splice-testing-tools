@@ -1,0 +1,8 @@
+- {new_channel_label: rhel6-clone1, new_channel_name: rhel6-clone1, original_channel_label: rhel-x86_64-server-6,
+  original_channel_name: rhel-x86_64-server-6}
+- {new_channel_label: rhel6-clone2, new_channel_name: rhel6-clone2, original_channel_label: rhel6-clone1,
+  original_channel_name: rhel6-clone1}
+- {new_channel_label: rhel6-hpc1, new_channel_name: rhel6-hpc1, original_channel_label: rhel-x86_64-hpc-node-6,
+  original_channel_name: rhel-x86_64-hpc-node-6}
+- {new_channel_label: rhel6-hpc2, new_channel_name: rhel6-hpc2, original_channel_label: rhel6-hpc1,
+  original_channel_name: rhel6-hpc1}

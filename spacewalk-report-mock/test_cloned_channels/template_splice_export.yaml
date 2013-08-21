@@ -1,0 +1,14 @@
+- {architecture: x86_64, entitlements: Spacewalk Management Entitled Servers, hardware: '1
+      CPUs 1 Sockets; eth0 10.64.147.151/255.255.254.0 12:31:43:07:94:69; lo 127.0.0.1/255.0.0.0
+      00:00:00:00:00:00', hostname: ip-10-64-147-151.eu-west-1.compute.internal, ip_address: 10.64.147.151,
+    ipv6_address: '::1', last_checkin_time: '2013-05-01 01:00:01', memory: '2048', name: ip-10-64-147-151.eu-west-1.compute.internal,
+    org_id: '1', organization: Testing Org, registered_by: admin, registration_time: '2013-05-01
+      00:00:00', server_id: '1000010000', sockets: '1', software_channel: rhel6-clone2,
+    system_group: '', virtual_host: ''}
+- {architecture: x86_64, entitlements: Spacewalk Management Entitled Servers, hardware: '4
+      CPUs 4 Sockets; eth0 10.64.147.152/255.255.254.0 12:31:43:07:94:69; lo 127.0.0.1/255.0.0.0
+      00:00:00:00:00:00', hostname: ip-10-64-147-152.eu-west-1.compute.internal, ip_address: 10.64.147.152,
+    ipv6_address: '::1', last_checkin_time: '2013-05-01 01:00:01', memory: '8192', name: ip-10-64-147-152.eu-west-1.compute.internal,
+    org_id: '1', organization: Testing Org, registered_by: admin, registration_time: '2013-05-01
+      00:00:00', server_id: '1000020000', sockets: '4', software_channel: rhel6-hpc2,
+    system_group: '', virtual_host: ''}
