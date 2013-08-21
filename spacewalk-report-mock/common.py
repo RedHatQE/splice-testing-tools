@@ -55,7 +55,8 @@ def print_splice_export(data):
                        'architecture',
                        'hardware',
                        'memory',
-                       'sockets'],
+                       'sockets',
+                       'is_virtualized'],
                       data)
 
 
