@@ -164,8 +164,6 @@ class Splice_has_FAKE_SPACEWALK(object):
             katello_conf.readfp(fd)
 
         katello_conf.set("spacewalk", "host", fake_spacewalk.hostname)
-        katello_conf.set("spacewalk", "login", "root")
-        katello_conf.set("spacewalk", "ssh_key_path", "/var/lib/splice/.ssh/id_rsa")
         if hasattr(ss, "config"):
             if 'katello_deployment' in ss.config:
                 katello_conf.set('katello', 'api_url', '/' + ss.config['katello_deployment'])
