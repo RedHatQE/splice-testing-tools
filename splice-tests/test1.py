@@ -6,11 +6,11 @@ import nose
 class test_splice_1(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest):
     def _setup(self):
         splicetestlib.fake_spacewalk_env(self.ss.Instances["FAKE_SPACEWALK"][0], "test1")
-        splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+        splicetestlib.sst_step(self.ss.Instances["KATELLO"][0], self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest
         self.katello.upload_manifest("satellite-1", self.ss.config["manifest"])
         for step in range(36):
-            splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+       	    splicetestlib.sst_step(self.ss.Instances["KATELLO"][0], self.ss.Instances["FAKE_SPACEWALK"][0])
 
     def test_01_active_week(self):
         """
