@@ -25,13 +25,13 @@ fd_users.close()
 def generate(dirname):
     # 24 hours ago
     initial_date = datetime.datetime.now() - datetime.timedelta(0, 24 * 4 * 3600)
-    splice_export[0]['last_checkin_time'] = initial_date.strftime("%Y-%m-%d %H:%M:%S")
-    splice_export[1]['last_checkin_time'] = initial_date.strftime("%Y-%m-%d %H:%M:%S")
+    for i in range(3):
+        splice_export[i]['last_checkin_time'] = initial_date.strftime("%Y-%m-%d %H:%M:%S")
     print_all("%s/step1" % dirname, {'host_guests': [],
                                      'cloned_channels': [],
                                      'users': [users],
                                      'splice_export': []})
-    print_all("%s/step2" % dirname, {'host_guests': [],
+    print_all("%s/step2" % dirname, {'host_guests': host_guests,
                                      'cloned_channels': [],
                                      'users': [users],
                                      'splice_export': splice_export})
