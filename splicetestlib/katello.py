@@ -18,6 +18,7 @@ class Katello(object):
         self.username = username
         self.password = password
         self.verify = verify
+        self.signo = True
 
     @staticmethod
     def _request_return(req):
@@ -125,8 +126,16 @@ class Katello(object):
         """ Get CSRF token """
         data = {'username': self.username, 'password': self.password, 'commit': 'Login'}
         session = requests.session()
-        req_login = session.post('https://%s/signo/login' % self.hostname, data=data, verify=self.verify)
-        assert req_login.status_code == 200
+        req_type = session.get('https://%s%s' % (self.hostname, self.path), data=data, verify=self.verify)
+        if req_type.content.find("/signo/") != -1:
+            # signo
+            self.signo = True
+            req_login = session.post('https://%s/signo/login' % self.hostname, data=data, verify=self.verify)
+        else:
+            # Let's try without signo
+            self.signo = False
+            req_login = session.post('https://%s%s/user_session' % (self.hostname, self.path), data=data, verify=self.verify)
+        assert req_login.status_code == 200, "Failed to login to %s%s" % (self.hostname, self.path)
         req_dashboard = session.get('https://%s%s/dashboard' % (self.hostname, self.path), verify=self.verify)
         assert req_dashboard.status_code == 200
         csrf = re.search('.*<meta content="(.*=)" name="csrf-token" />', req_dashboard.content, re.DOTALL)
