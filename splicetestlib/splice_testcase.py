@@ -236,8 +236,12 @@ class Splice_has_WebUI(object):
                                     organizations=organizations,
                                     lifecycle_states=state
                                 ) as (filters_page, report_filter):
-                                filters_page._navigate()
-                                report_page = report_filter.run_report()
+                                report_page = getattr(filters_page, filter_name).run_report()
+                                # assert the values
+                                nose.tools.assert_equal(report_page.current_subscriptions.count.text, unicode(current))
+                                nose.tools.assert_equal(report_page.insufficient_subscriptions.count.text, unicode(insufficient))
+                                nose.tools.assert_equal(report_page.invalid_subscriptions.count.text, unicode(invalid))
+                                
         elif past_hours is not None:
             # hours-based operation
             filter_name = reports.hours_filter_name(past_hours, state)
@@ -251,18 +255,16 @@ class Splice_has_WebUI(object):
                                     organizations=organizations,
                                     lifecycle_states=state
                                 ) as (filters_page, report_filter):
-                                filters_page._navigate()
-                                report_page = report_filter.run_report()
+                                report_page = getattr(filters_page, filter_name).run_report()
+                                # assert the values
+                                nose.tools.assert_equal(report_page.current_subscriptions.count.text, unicode(current))
+                                nose.tools.assert_equal(report_page.insufficient_subscriptions.count.text, unicode(insufficient))
+                                nose.tools.assert_equal(report_page.invalid_subscriptions.count.text, unicode(invalid))
         else:
             # Wrong usage
-            assert False
+            assert False, "Wrong usage"
             return # not reached
 
-        assert report_page is not None        
-        # assert the values
-        nose.tools.assert_equal(report_page.current_subscriptions.count, unicode(current))
-        nose.tools.assert_equal(report_page.insufficient_subscriptions.count, unicode(insufficient))
-        nose.tools.assert_equal(report_page.invalid_subscriptions.count, unicode(invalid))
 
     @classmethod
     def cleanup(self, ss):
