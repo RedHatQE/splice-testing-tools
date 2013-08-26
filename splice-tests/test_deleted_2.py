@@ -7,11 +7,11 @@ class test_splice_deleted_2(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_ha
     def _setup(self):
         splicetestlib.fake_spacewalk_env(self.ss.Instances["FAKE_SPACEWALK"][0], "test_deleted_2")
         # creating orgs
-        splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+        splicetestlib.sst_step(self.ss.Instances["KATELLO"][0], self.ss.Instances["FAKE_SPACEWALK"][0])
         # uploading manifest
         self.katello.upload_manifest("satellite-1", self.ss.config["manifest"])
         for step in range(24):
-            splicetestlib.sst_step(self.ss.Instances["FAKE_SPACEWALK"][0])
+            splicetestlib.sst_step(self.ss.Instances["KATELLO"][0], self.ss.Instances["FAKE_SPACEWALK"][0])
         self.ss.Instances["KATELLO"][0].recv_exit_status("ntpdate pool.ntp.org", timeout=60)
 
     def test_01_system_was_removed(self):
