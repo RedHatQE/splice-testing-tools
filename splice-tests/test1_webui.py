@@ -22,6 +22,62 @@ class test_splice_1_webui(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_
         """
         Splice_has_WebUI.splice_check_report(days_start=7, days_end=1, current=1, invalid=1, state=['Active'])
 
+    def test_02_inactive_week(self):
+        """
+        Inactive report last week
+        Expecting 0 subscriptions
+        """
+        Splice_has_WebUI.splice_check_report(days_start=7, days_end=1, state=['Inactive'])
+
+    def test_03_consolidated_week(self):
+        """
+        Consolidated report last week
+        Expecting 1 current and 1 invalid subscription
+        """
+        Splice_has_WebUI.splice_check_report(days_start=7, days_end=1, current=1, invalid=1, state=['Active', 'Inactive'])
+
+    def test_04_active_next_week(self):
+        """
+        Active report next week
+        Expecting 0 subscriptions
+        """
+        Splice_has_WebUI.splice_check_report(days_start=-1, days_end=-7, state=['Active'])
+
+    def test_05_inactive_next_week(self):
+        """
+        Inactive report next week
+        Expecting 1 current and 1 invalid subscription
+        """
+        Splice_has_WebUI.splice_check_report(days_start=-1, days_end=-7, state=['Inactive'], current=1, invalid=1)
+
+    def test_06_consolidated_next_week(self):
+        """
+        Consolidated report next week
+        Expecting 1 current and 1 invalid subscription
+        """
+        Splice_has_WebUI.splice_check_report(days_start=-1, days_end=-7, state=['Active', 'Inactive'], current=1, invalid=1)
+
+    def test_07_active_past_24h(self):
+        """
+        Active report last 24h
+        Expecting 1 current and 1 invalid subscription
+        """
+        Splice_has_WebUI.splice_check_report(past_hours=24, current=1, invalid=1, state=['Active'])
+
+    def test_08_inactive_past_24h(self):
+        """
+        Inactive report last 24h
+        Expecting 0 subscriptions
+        """
+        Splice_has_WebUI.splice_check_report(past_hours=24, state=['Inactive'])
+
+    def test_09_consolidated_past_24h(self):
+        """
+        Consolidated report last 24h
+        Expecting 1 current and 1 invalid subscription
+        """
+        Splice_has_WebUI.splice_check_report(past_hours=24, current=1, invalid=1, state=['Active', 'Inactive'])
+
     def _cleanup(self):
         splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello)
 
