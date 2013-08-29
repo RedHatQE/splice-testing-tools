@@ -62,6 +62,6 @@ def parse_report_json(report):
     result = {}
     result["total_number_of_instances"] = len(report)
     result["number_of_current"] = sum(1 for instance in report if instance['entitlement_status']['status'] == 'valid')
-    result["number_of_insufficient"] = sum(1 for instance in report if instance['entitlement_status']['status'] == 'parital')
+    result["number_of_insufficient"] = sum(1 for instance in report if instance['entitlement_status']['status'] == 'partial')
     result["number_of_invalid"] = sum(1 for instance in report if instance['entitlement_status']['status'] == 'invalid')
     return result
