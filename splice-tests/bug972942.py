@@ -20,7 +20,7 @@ class test_splice_bug972942(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
         nose.tools.assert_equals(org_name, "TestOrg2")
 
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello)
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello, full_reset=True)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])

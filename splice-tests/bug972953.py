@@ -14,7 +14,7 @@ class test_splice_bug972953(SpliceTestcase, Splice_has_FAKE_SPACEWALK):
         nose.tools.assert_true('Org Admin Role for TestOrg2' in [role['name'] for role in self.katello.list_roles()])
 
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello)
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello, full_reset=True)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])
