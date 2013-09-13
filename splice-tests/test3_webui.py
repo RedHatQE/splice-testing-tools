@@ -1,5 +1,6 @@
 import splicetestlib
 from splicetestlib.splice_testcase import *
+from splicetestlib.splice_testcase_web import *
 import nose
 
 class test_splice_3(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manifest, Splice_has_WebUI):

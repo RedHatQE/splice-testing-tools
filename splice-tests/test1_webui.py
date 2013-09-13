@@ -1,5 +1,6 @@
 import splicetestlib
 from splicetestlib.splice_testcase import *
+from splicetestlib.splice_testcase_web import *
 import datetime
 import nose
 import pageobjects
