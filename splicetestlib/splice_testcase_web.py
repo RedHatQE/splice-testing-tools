@@ -38,9 +38,8 @@ class Splice_has_WebUI(object):
     def _env_ctx(url, username, password, organization):
          with current_url(url):
             with login_ctx(username, password):
-                with user_experimental_ui_ctx(username):
-                    with organisation_ctx(organization):
-                        yield
+                with organisation_ctx(organization):
+                    yield
 
 
     @classmethod
