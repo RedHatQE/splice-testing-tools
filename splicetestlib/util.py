@@ -4,9 +4,9 @@ class SpliceTestFailed(AssertionError):
     '''
     pass
 
-def _run_command(connection, command, timeout=60):
+def _run_command(connection, command, timeout=60, get_pty=False):
     """ Run a command and raise exception in case of timeout or none-zero result """
-    status = connection.recv_exit_status(command, timeout, get_pty=True)
+    status = connection.recv_exit_status(command, timeout, get_pty=get_pty)
     if status is not None and status != 0:
         raise SpliceTestFailed("Failed to run %s: got %s return value\nSTDOUT: %s\nSTDERR: %s" % (command, status, connection.last_stdout, connection.last_stderr))
     elif status is None:
@@ -21,7 +21,7 @@ def run_sst(connection, spacewalk_only=False, splice_only=False, timeout=120):
         command += " --splice-sync"
     # changing system date
     _run_command(connection, "[ ! -z \"`spacewalk-report fake-checkin-date`\" ] && date -s \"`spacewalk-report fake-checkin-date`\" && katello-service restart && sleep 10 ||:", 3 * timeout)
-    _run_command(connection, command, timeout)
+    _run_command(connection, command, timeout, get_pty=True)
 
 def fake_spacewalk_env(connection, test_name):
     """ Select test with fake spacewalk """
