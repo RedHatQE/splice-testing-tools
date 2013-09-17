@@ -60,6 +60,22 @@
     vars:
       ssh_authorized_keys_user: swreport
 
+- name: disable sst cron jobs to prevent messing with test cases
+  hosts:
+  - SAM
+
+  tasks:
+  - name: disable sst cron jobs
+    action: shell sed -i 's,^[^#],#&,' ${item}
+    with_items:
+    - /etc/cron.d/splice-sst-sync
+    - /etc/cron.d/spacewalk-sst-sync
+
+  - name: reload crond service
+    action: service 
+      name=crond
+      state=reloaded
+  
 
 - name: configure splicetestlib
   connection: local 
