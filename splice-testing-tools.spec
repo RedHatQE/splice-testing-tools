@@ -1,5 +1,5 @@
 Name:		splice-testing-tools
-Version:	0.2
+Version:	0.3
 Release:	1%{?dist}
 Summary:	Splice Testing library
 
@@ -105,6 +105,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 19 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.3-1
+- new version
+
 * Thu Jun 13 2013 Vitaly Kuznetsov <vitty@redhat.com> 0.2-1
 - make selenium build optional (vitty@redhat.com)
 

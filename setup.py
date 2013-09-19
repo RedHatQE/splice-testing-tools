@@ -26,7 +26,7 @@ for topdir in glob.glob('spacewalk-report-mock/test*'):
         datafiles.append(('share/splice-testing-tools/' + dirname, map(lambda x: dirname + "/" + x, [fn for fn in filenames if fn.endswith(".py") or fn.endswith(".yaml") or fn.endswith(".md")])))
 
 setup(name='splicetestlib',
-    version='0.2',
+    version='0.3',
     description='Splice Testing library',
     author='Vitaly Kuznetsov',
     author_email='vitty@redhat.com',
