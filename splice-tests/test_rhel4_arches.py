@@ -30,8 +30,15 @@ class test_rhel4_arches(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Ma
                 nose.tools.assert_equals(info['facts']['uname.machine'], 'ppc64')
                 nose.tools.assert_equals(info['facts']['lscpu.architecture'], 'ppc64')
 
+    def test_02_active_week(self):
+        """
+        Active report last week
+        Expecting 2 current and 2 invalid subscription
+        """
+        self.splice_check_report(days_start=7, days_end=-11, current=2, invalid=2, state=['Active'])
+
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello, full_reset=True)
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello, full_reset=False)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])

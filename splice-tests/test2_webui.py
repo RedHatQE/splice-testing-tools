@@ -119,7 +119,7 @@ class test_splice_2(SpliceTestcase, Splice_has_FAKE_SPACEWALK, Splice_has_Manife
         Splice_has_WebUI.splice_check_report(days_start=-21, days_end=-31, state=['Active', 'Inactive'], invalid=1)
 
     def _cleanup(self):
-        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello, full_reset=True)
+        splicetestlib.cleanup_katello(self.ss.Instances["KATELLO"][0], self.katello, full_reset=False)
 
 if __name__ == "__main__":
     nose.run(defaultTest=__name__, argv=[__file__, '-v'])
