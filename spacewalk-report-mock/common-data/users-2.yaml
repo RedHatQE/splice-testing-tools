@@ -1,0 +1,8 @@
+- {active: enabled, creation_time: '2013-05-24 08:57:50', email: admin1@redhat.com,
+  first_name: Admin_Org1, last_login_time: '', last_name: Admin_Org1, organization: Testing
+    Org, organization_id: '1', position: '', role: Organization Administrator;Satellite
+    Administrator, user_id: '1', username: admin}
+- {active: enabled, creation_time: '2013-05-24 08:57:50', email: admin2@redhat.com,
+  first_name: Admin_Org2, last_login_time: '', last_name: Admin_Org2, organization: Testing
+    Org2, organization_id: '2', position: '', role: Organization Administrator,
+    user_id: '2', username: adminorg2}
